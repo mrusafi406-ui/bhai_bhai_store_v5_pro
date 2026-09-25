@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f172a">
+<title>Bhai Bhai Store v5 PRO</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+  --bg:#0f172a; --bg2:#1e293b; --card:#1e293b; --card2:#334155;
+  --primary:#3b82f6; --success:#10b981; --danger:#ef4444;
+  --warning:#f59e0b; --purple:#8b5cf6;
+  --text:#f1f5f9; --muted:#94a3b8; --border:#334155;
+  --grad1:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  --grad2:linear-gradient(135deg,#10b981,#06b6d4);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;font-size:14px}
+.watermark{position:fixed;bottom:90px;right:10px;font-size:10px;color:rgba(148,163,184,0.25);font-style:italic;z-index:1;pointer-events:none;transform:rotate(-90deg);transform-origin:right bottom;white-space:nowrap}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at top,#1e3a8a,#0f172a)}
+.login-card{background:var(--card);padding:30px 22px;border-radius:20px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.5);border:1px solid var(--border)}
+.login-logo{width:80px;height:80px;margin:0 auto 15px;background:var(--grad1);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 10px 30px rgba(59,130,246,0.4)}
+.login-card h1{text-align:center;font-size:22px;margin-bottom:5px;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.login-card p{text-align:center;color:var(--muted);font-size:12px;margin-bottom:25px}
+.login-card label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;margin-top:14px}
+.login-card select,.login-card input{width:100%;padding:13px 14px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;outline:none}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--grad1);color:#fff;font-size:15px;font-weight:600;margin-top:22px;cursor:pointer;box-shadow:0 8px 20px rgba(59,130,246,0.4)}
+.header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,0.95);backdrop-filter:blur(10px);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-logo{width:36px;height:36px;background:var(--grad1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.header-title{font-size:15px;font-weight:700}
+.header-sub{font-size:10px;color:var(--muted)}
+.header-right{display:flex;gap:8px;align-items:center}
+.icon-btn{width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:var(--text)}
+.tab-nav{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:10px 18px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.tab-btn.active{background:var(--grad1);color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(59,130,246,0.4)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(15,23,42,0.98);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 4px 10px;z-index:99}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--muted);font-size:9px;cursor:pointer}
+.nav-item.active{color:var(--primary)}
+.nav-item .ico{font-size:18px}
+.container{padding:0 16px 20px}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px;border:1px solid var(--border);box-shadow:0 4px 14px rgba(0,0,0,0.2)}
+.card-title{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.card-title .badge{font-size:10px;padding:3px 8px;border-radius:6px;background:var(--card2);color:var(--muted);font-weight:500}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.stat-card{background:var(--card);border-radius:14px;padding:14px;border:1px solid var(--border);position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
+.stat-card.blue::before{background:var(--primary)}
+.stat-card.green::before{background:var(--success)}
+.stat-card.orange::before{background:var(--warning)}
+.stat-card.red::before{background:var(--danger)}
+.stat-card.purple::before{background:var(--purple)}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.stat-value{font-size:19px;font-weight:700}
+.stat-sub{font-size:10px;color:var(--muted);margin-top:4px}
+.stat-card.blue .stat-value{color:#60a5fa}
+.stat-card.green .stat-value{color:#34d399}
+.stat-card.orange .stat-value{color:#fbbf24}
+.stat-card.red .stat-value{color:#f87171}
+.stat-card.purple .stat-value{color:#a78bfa}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-group{margin-bottom:10px}
+.form-group label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:500}
+.form-group input,.form-group select{width:100%;padding:11px 12px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;outline:none}
+.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:var(--card2);padding:9px 8px;text-align:left;font-weight:600;color:var(--muted);font-size:10px;text-transform:uppercase;white-space:nowrap}
+td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
+.chart-box{position:relative;height:220px;margin-top:8px}
+.btn-sm{padding:8px 14px;border:none;border-radius:9px;background:var(--primary);color:#fff;font-size:12px;font-weight:600;cursor:pointer}
+.btn-sm.green{background:var(--success)}
+.btn-sm.red{background:var(--danger)}
+.btn-sm.orange{background:var(--warning)}
+.btn-sm.purple{background:var(--purple)}
+.btn-row{display:flex;gap:8px;margin-top:12px}
+.progress{height:8px;background:var(--bg);border-radius:5px;overflow:hidden;margin-top:6px}
+.progress-bar{height:100%;background:var(--grad2);border-radius:5px;transition:width 0.5s}
+.rank{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.rank.gold{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000}
+.rank.silver{background:linear-gradient(135deg,#e5e7eb,#9ca3af);color:#000}
+.rank.bronze{background:linear-gradient(135deg,#d97706,#92400e);color:#fff}
+.rank.normal{background:var(--card2);color:var(--muted)}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--success);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:all 0.3s}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.error{background:var(--danger)}
+.section{display:none}
+.section.active{display:block}
+.user-chip{display:flex;align-items:center;gap:6px;background:var(--card);padding:6px 10px;border-radius:20px;font-size:11px;border:1px solid var(--border)}
+.user-avatar{width:22px;height:22px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="watermark">Developed by Maruf@Hossain. All rights reserved.</div>
+
+<div id="loginScreen" class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">🏪</div>
+    <h1>Bhai Bhai Store</h1>
+    <p>v5 PRO • Sales & Inventory System</p>
+    <label>👤 ব্যবহারকারী নির্বাচন করুন</label>
+    <select id="loginUser">
+      <option value="">-- নির্বাচন করুন --</option>
+      <option value="admin">🔑 Admin (Maruf Hossain)</option>
+      <option value="maruf">Maruf Hossain (SR)</option>
+      <option value="raju">Raju Hossain (SR)</option>
+      <option value="sumon">Sumon Islam (SR)</option>
+      <option value="direct">Direct Sales</option>
+    </select>
+    <label>🔒 পাসওয়ার্ড</label>
+    <input type="password" id="loginPin" placeholder="পাসওয়ার্ড দিন" inputmode="numeric">
+    <p style="font-size:10px;color:#94a3b8;text-align:center;margin-top:12px">💡 Admin: 1111 | SR: 1234/2345/3456/4567</p>
+    <button class="btn" onclick="doLogin()">লগইন করুন →</button>
+    <p style="margin-top:20px;font-size:10px;opacity:0.5;text-align:center">Developed by Maruf@Hossain</p>
+  </div>
+</div>
+
+<div id="appScreen" style="display:none">
+  <div class="header">
+    <div class="header-left">
+      <div class="header-logo">🏪</div>
+      <div>
+        <div class="header-title">Bhai Bhai Store</div>
+        <div class="header-sub" id="hdrSub">v5 PRO</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="user-chip">
+        <div class="user-avatar" id="userAvatar">M</div>
+        <span id="userName">Maruf</span>
+      </div>
+      <div class="icon-btn" onclick="doLogout()">⏻</div>
+    </div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('entry',this)">📝 ডেইলি এন্ট্রি</button>
+    <button class="tab-btn" onclick="switchTab('dashboard',this)">📊 ড্যাশবোর্ড</button>
+    <button class="tab-btn" onclick="switchTab('inventory',this)">📦 ইনভেন্টরি</button>
+    <button class="tab-btn" onclick="switchTab('reports',this)">📈 রিপোর্ট</button>
+    <button class="tab-btn" onclick="switchTab('setup',this)">⚙️ সেটআপ</button>
+  </div>
+
+  <div class="container">
+    <div id="sec-entry" class="section active">
+      <div class="card">
+        <div class="card-title">📝 প্রতিদিনের এন্ট্রি <span class="badge" id="todayDate"></span></div>
+        <div class="form-row">
+          <div class="form-group"><label>তারিখ</label><input type="date" id="entryDate"></div>
+          <div class="form-group"><label>রুট</label><select id="entryRoute"></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>DSR (নাম)</label><select id="entryDSR"></select></div>
+          <div class="form-group"><label>এন্ট্রি টাইপ</label>
+            <select id="entryType">
+              <option value="order">অর্ডার (Order)</option>
+              <option value="sales">সেলস (Sales)</option>
+              <option value="damage">ড্যামেজ (Damage)</option>
+              <option value="commission">কমিশন (৳)</option>
+            </select>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin:14px 0 8px;font-weight:600">প্রোডাক্ট এন্ট্রি (Pcs)</div>
+        <div id="productInputs" style="max-height:340px;overflow-y:auto;padding-right:4px"></div>
+        <div class="btn-row">
+          <button class="btn-sm green" style="flex:1;padding:12px" onclick="saveEntry()">💾 সেভ করুন</button>
+          <button class="btn-sm" style="flex:0.5;padding:12px" onclick="clearEntry()">🔄 রিসেট</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 আজকের সামারি</div>
+        <div class="stat-grid" style="margin-bottom:0">
+          <div class="stat-card blue"><div class="stat-label">আজকের সেলস (৳)</div><div class="stat-value" id="todaySalesVal">৳0</div></div>
+          <div class="stat-card green"><div class="stat-label">আজকের অর্ডার (৳)</div><div class="stat-value" id="todayOrderVal">৳0</div></div>
+          <div class="stat-card orange"><div class="stat-label">আজকের ড্যামেজ</div><div class="stat-value" id="todayDamageVal">0 pcs</div></div>
+          <div class="stat-card purple"><div class="stat-label">আজকের কমিশন (৳)</div><div class="stat-value" id="todayCommVal">৳0</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sec-dashboard" class="section">
+      <div class="stat-grid">
+        <div class="stat-card blue"><div class="stat-label">মাসিক সেলস</div><div class="stat-value" id="dbSales">৳0</div><div class="stat-sub" id="dbSalesTarget">টার্গেট: ৳0</div></div>
+        <div class="stat-card green"><div class="stat-label">অ্যাচিভমেন্ট</div><div class="stat-value" id="dbAchv">0%</div><div class="progress"><div class="progress-bar" id="dbAchvBar" style="width:0%"></div></div></div>
+        <div class="stat-card orange"><div class="stat-label">মার্কেট ড্যামেজ</div><div class="stat-value" id="dbDmg">0</div><div class="stat-sub" id="dbDmgPct">0%</div></div>
+        <div class="stat-card purple"><div class="stat-label">মোট কমিশন</div><div class="stat-value" id="dbComm">৳0</div></div>
+      </div>
+      <div class="card"><div class="card-title">📈 সেলস vs টার্গেট (SR-wise)</div><div class="chart-box"><canvas id="chartSR"></canvas></div></div>
+      <div class="card"><div class="card-title">🥧 ব্র্যান্ড-ওয়াইজ সেলস মিক্স</div><div class="chart-box"><canvas id="chartBrand"></canvas></div></div>
+      <div class="card"><div class="card-title">🏆 SR র‍্যাংকিং</div>
+        <div class="tbl-wrap"><table><thead><tr><th>র‍্যাংক</th><th>SR নাম</th><th>সেলস</th><th>অ্যাচিভ%</th></tr></thead><tbody id="rankTable"></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="sec-inventory" class="section">
+      <div class="stat-grid">
+        <div class="stat-card blue"><div class="stat-label">ওপেনিং স্টক</div><div class="stat-value" id="invOpening">0</div></div>
+        <div class="stat-card green"><div class="stat-label">লিফটিং</div><div class="stat-value" id="invLifting">0</div></div>
+        <div class="stat-card orange"><div class="stat-label">সেলস (pcs)</div><div class="stat-value" id="invSales">0</div></div>
+        <div class="stat-card red"><div class="stat-label">ক্লোজিং স্টক</div><div class="stat-value" id="invClosing">0</div></div>
+      </div>
+      <div class="card"><div class="card-title">📦 প্রোডাক্ট-ওয়াইজ স্টক <span class="badge">কার্টুন এককে</span></div>
+        <div class="tbl-wrap"><table><thead><tr><th>প্রোডাক্ট</th><th>ওপেনিং</th><th>লিফটিং</th><th>সেলস</th><th>ড্যামেজ</th><th>ক্লোজিং</th></tr></thead><tbody id="invTable"></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="sec-reports" class="section">
+      <div class="card"><div class="card-title">📊 SR-ওয়াইজ রিপোর্ট</div>
+        <div class="tbl-wrap"><table><thead><tr><th>SR</th><th>মাসিক টার্গেট</th><th>ডেইলি টার্গেট</th><th>অ্যাচিভমেন্ট</th><th>বাউন্স</th><th>রিকোয়ারমেন্ট</th></tr></thead><tbody id="reportTable"></tbody></table></div>
+      </div>
+      <div class="card"><div class="card-title">📉 ডেইলি সেলস ট্রেন্ড</div><div class="chart-box"><canvas id="chartTrend"></canvas></div></div>
+    </div>
+
+    <div id="sec-setup" class="section">
+      <div class="card"><div class="card-title">🎯 মাসিক টার্গেট সেটআপ <span class="badge">কার্টুন এককে</span></div>
+        <div class="form-group"><label>SR নির্বাচন</label><select id="setupSR" onchange="renderTargetInputs()"></select></div>
+        <div id="targetInputs" style="max-height:340px;overflow-y:auto"></div>
+        <button class="btn-sm green" style="width:100%;padding:12px;margin-top:12px" onclick="saveTarget()">💾 টার্গেট সেভ করুন</button>
+      </div>
+      <div class="card" id="adminPanelCard" style="display:none">
+        <div class="card-title">👑 ইউজার ম্যানেজমেন্ট <span class="badge">Admin Only</span></div>
+        <div class="form-group"><label>যে ইউজারের পাসওয়ার্ড বদলাবেন</label><select id="pwdUser"></select></div>
+        <div class="form-group"><label>নতুন পাসওয়ার্ড (৪+ ডিজিট)</label><input type="text" id="newPass" placeholder="যেমন: 5555" inputmode="numeric"></div>
+        <button class="btn-sm purple" style="width:100%;padding:12px" onclick="changePassword()">🔑 পাসওয়ার্ড পরিবর্তন</button>
+        <button class="btn-sm orange" style="width:100%;padding:12px;margin-top:8px" onclick="resetPasswords()">🔄 সব পাসওয়ার্ড ডিফল্টে রিসেট</button>
+      </div>
+      <div class="card"><div class="card-title">📦 প্রোডাক্ট মাস্টার</div>
+        <div class="tbl-wrap"><table><thead><tr><th>প্রোডাক্ট</th><th>Pcs/কার্টন</th><th>TP</th><th>DP</th></tr></thead><tbody id="prodMasterTable"></tbody></table></div>
+      </div>
+      <div class="card"><div class="card-title">💾 ডেটা ম্যানেজমেন্ট</div>
+        <div class="btn-row">
+          <button class="btn-sm" style="flex:1" onclick="exportData()">⬇️ এক্সপোর্ট</button>
+          <button class="btn-sm orange" style="flex:1" onclick="document.getElementById('importFile').click()">⬆️ ইমপোর্ট</button>
+        </div>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+        <button class="btn-sm red" style="width:100%;margin-top:10px;padding:12px" onclick="resetAll()">🗑️ সম্পূর্ণ ডেটা রিসেট</button>
+      </div>
+      <div style="text-align:center;padding:20px;color:var(--muted);font-size:10px">Bhai Bhai Store v5 PRO<br>Developed by Maruf@Hossain. All rights reserved.</div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('entry',this)"><span class="ico">📝</span>এন্ট্রি</div>
+    <div class="nav-item" onclick="switchTab('dashboard',this)"><span class="ico">📊</span>ড্যাশবোর্ড</div>
+    <div class="nav-item" onclick="switchTab('inventory',this)"><span class="ico">📦</span>স্টক</div>
+    <div class="nav-item" onclick="switchTab('reports',this)"><span class="ico">📈</span>রিপোর্ট</div>
+    <div class="nav-item" onclick="switchTab('setup',this)"><span class="ico">⚙️</span>সেটআপ</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PRODUCTS = [
+  {name:"P-up 250ml", pcs:24, tp:15.21, dp:12.7, brand:"Pran"},
+  {name:"P-up 750ml", pcs:12, tp:31.04, dp:28.35, brand:"Pran"},
+  {name:"P-up 2000ml", pcs:6, tp:79.93, dp:73.41, brand:"Pran"},
+  {name:"Maxx 250ml", pcs:24, tp:27.03, dp:24.9, brand:"Maxx"},
+  {name:"Maxx 500ml", pcs:12, tp:42.30, dp:38.95, brand:"Maxx"},
+  {name:"Maxx 1000ml", pcs:12, tp:75.20, dp:66.22, brand:"Maxx"},
+  {name:"Maxx 2000ml", pcs:6, tp:131.42, dp:121.56, brand:"Maxx"},
+  {name:"Lemon 250ml", pcs:24, tp:16.52, dp:14.5, brand:"Lemon"},
+  {name:"Lemon 400ml", pcs:24, tp:25.56, dp:22.7, brand:"Lemon"},
+  {name:"Lemon 1000ml", pcs:12, tp:56.11, dp:51.3, brand:"Lemon"},
+  {name:"Lachi 250ml", pcs:24, tp:19.07, dp:17.74, brand:"Lachi"},
+  {name:"Lachi 500ml", pcs:24, tp:34.95, dp:30.8, brand:"Lachi"},
+  {name:"Lachi 1000ml", pcs:12, tp:45.90, dp:38.92, brand:"Lachi"},
+  {name:"Drinko Mango", pcs:24, tp:22.91, dp:20.4, brand:"Drinko"},
+  {name:"Drinko 250ml", pcs:24, tp:27.40, dp:25.18, brand:"Drinko"},
+  {name:"D-Water 500ml", pcs:24, tp:14.83, dp:12.9, brand:"D-Water"},
+  {name:"D-Water 1000ml", pcs:12, tp:25.20, dp:20.1, brand:"D-Water"},
+  {name:"D-Water 2000ml", pcs:6, tp:35.00, dp:28.8, brand:"D-Water"},
+  {name:"Mlp", pcs:24, tp:17.21, dp:15.1, brand:"Mlp"},
+  {name:"Fasto 250ml", pcs:24, tp:31.96, dp:29.5, brand:"Fasto"},
+  {name:"Fasto 500ml", pcs:24, tp:54.80, dp:50.5, brand:"Fasto"},
+  {name:"Fasto 1000ml", pcs:12, tp:80.11, dp:73.8, brand:"Fasto"},
+  {name:"Mango Pack 150ml", pcs:80, tp:11.05, dp:10.0, brand:"Mango"},
+  {name:"Power", pcs:24, tp:18.29, dp:14.3, brand:"Power"},
+  {name:"Zera pant", pcs:24, tp:24.29, dp:20.2, brand:"Zera"},
+  {name:"Jelly Ship", pcs:96, tp:7.92, dp:6.9, brand:"Jelly"},
+  {name:"Lolipop (jar)", pcs:100, tp:3.55, dp:3.1, brand:"Lolipop"},
+  {name:"Coffee (pcs)", pcs:50, tp:12.51, dp:10.5, brand:"Coffee"},
+  {name:"Pulse candy (jar)", pcs:170, tp:1.55, dp:1.3, brand:"Pulse"}
+];
+
+const SR_LIST = [
+  {id:"maruf", name:"Maruf Hossain", target:1500000},
+  {id:"raju",  name:"Raju Hossain",  target:1200000},
+  {id:"sumon", name:"Sumon Islam",   target:1000000},
+  {id:"direct",name:"Direct Sales",  target:0}
+];
+
+const ROUTES = ["Joydia Bazar","Dhalia Road","Satta West","Mohila General Store","Station Road","Shantipur","Charkhai Dangi","Nuton Bazar","Ghoramara","Lakhaura","Boro Shibganj","Mymensingh East","Mymensingh West","Taragonj North","Taragonj South","Isamoti Kachari","Bhongir Bazar","Rajbari Bazar","IPH Gate"];
+
+const SR_ROUTES = {
+  maruf:["Joydia Bazar","Dhalia Road","Satta West","Mohila General Store","Station Road","Shantipur"],
+  raju:["Charkhai Dangi","Nuton Bazar","Ghoramara","Lakhaura","Boro Shibganj"],
+  sumon:["Mymensingh East","Mymensingh West","Taragonj North","Taragonj South"],
+  direct:["Isamoti Kachari","Bhongir Bazar","Rajbari Bazar","IPH Gate"]
+};
+
+const DEFAULT_USERS = {
+  admin:{pass:"1111", role:"admin", name:"Maruf Hossain (Admin)"},
+  maruf:{pass:"1234", role:"sr", name:"Maruf Hossain"},
+  raju:{pass:"2345", role:"sr", name:"Raju Hossain"},
+  sumon:{pass:"3456", role:"sr", name:"Sumon Islam"},
+  direct:{pass:"4567", role:"sr", name:"Direct Sales"}
+};
+
+const DB = {
+  load(k,d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch(e){ return d } },
+  save(k,v){ localStorage.setItem(k, JSON.stringify(v)) }
+};
+
+let entries = DB.load('bb_entries', []);
+let targets = DB.load('bb_targets', {});
+let USER_DB = DB.load('bb_users', DEFAULT_USERS);
+let currentUser = null;
+
+function doLogin(){
+  const u = document.getElementById('loginUser').value;
+  const p = document.getElementById('loginPin').value.trim();
+  if(!u){ toast('ব্যবহারকারী নির্বাচন করুন', true); return; }
+  if(!p){ toast('পাসওয়ার্ড দিন', true); return; }
+  USER_DB = DB.load('bb_users', DEFAULT_USERS);
+  if(!USER_DB[u]){ toast('এই ইউজার নেই', true); return; }
+  if(USER_DB[u].pass !== p){ toast('❌ ভুল পাসওয়ার্ড!', true); return; }
+  currentUser = u;
+  DB.save('bb_current_user', u);
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'block';
+  initApp();
+  toast('✅ স্বাগতম, ' + USER_DB[u].name.split(' ')[0]);
+}
+
+function doLogout(){
+  if(!confirm('লগআউট করবেন?')) return;
+  localStorage.removeItem('bb_current_user');
+  location.reload();
+}
+
+function switchTab(id, el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  if(id==='dashboard') renderDashboard();
+  if(id==='inventory') renderInventory();
+  if(id==='reports') renderReports();
+  if(id==='setup') renderSetup();
+  if(id==='entry') renderEntryProducts();
+}
+
+function initApp(){
+  const user = SR_LIST.find(s=>s.id===currentUser);
+  const isAdmin = currentUser==='admin';
+  document.getElementById('userName').textContent = isAdmin ? 'Admin' : (user?.name.split(' ')[0] || currentUser);
+  document.getElementById('userAvatar').textContent = isAdmin?'A':(user?.name[0]||'U');
+  document.getElementById('hdrSub').textContent = isAdmin ? 'Admin Mode' : (user?.name || '');
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('entryDate').value = today;
+  document.getElementById('todayDate').textContent = today;
+  const routes = SR_ROUTES[currentUser] || ROUTES;
+  document.getElementById('entryRoute').innerHTML = routes.map(r=>`<option>${r}</option>`).join('');
+  const dsrSel = document.getElementById('entryDSR');
+  if(isAdmin){
+    dsrSel.innerHTML = SR_LIST.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+    dsrSel.disabled = false;
+  } else {
+    dsrSel.innerHTML = `<option value="${currentUser}">${user.name}</option>`;
+    dsrSel.disabled = true;
+  }
+  document.getElementById('setupSR').innerHTML = SR_LIST.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  renderEntryProducts();
+  renderProductMaster();
+  renderTodaySummary();
+}
+
+function renderEntryProducts(){
+  const box = document.getElementById('productInputs');
+  box.innerHTML = PRODUCTS.map((p,i)=>`
+    <div class="form-row" style="align-items:center;margin-bottom:8px">
+      <div style="font-size:11px">${p.name}<br><span style="font-size:9px;color:var(--muted)">৳${p.tp} • ${p.pcs}pcs/ctn</span></div>
+      <input type="number" id="pin_${i}" placeholder="0" inputmode="numeric" style="padding:9px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;text-align:center">
+    </div>`).join('');
+}
+
+function clearEntry(){
+  PRODUCTS.forEach((_,i)=> document.getElementById('pin_'+i).value='');
+  toast('রিসেট হয়েছে');
+}
+
+function saveEntry(){
+  const date = document.getElementById('entryDate').value;
+  const route = document.getElementById('entryRoute').value;
+  const dsr = document.getElementById('entryDSR').value;
+  const type = document.getElementById('entryType').value;
+  const items = {};
+  let total = 0;
+  PRODUCTS.forEach((p,i)=>{
+    const v = parseInt(document.getElementById('pin_'+i).value)||0;
+    if(v>0){ items[p.name] = v; total += v; }
+  });
+  if(total===0){ toast('কোনো প্রোডাক্ট এন্ট্রি দিন', true); return; }
+  entries.push({id:Date.now(), date, route, dsr, type, items, ts:new Date().toISOString()});
+  DB.save('bb_entries', entries);
+  clearEntry();
+  renderTodaySummary();
+  toast('✅ সেভ হয়েছে!');
+}
+
+function renderTodaySummary(){
+  const today = document.getElementById('entryDate').value || new Date().toISOString().split('T')[0];
+  const todays = entries.filter(e=>e.date===today);
+  let salesVal=0, orderVal=0, dmgVal=0, commVal=0;
+  todays.forEach(e=>{
+    PRODUCTS.forEach(p=>{
+      const qty = e.items[p.name]||0;
+      if(e.type==='sales') salesVal += qty*p.tp;
+      if(e.type==='order') orderVal += qty*p.tp;
+      if(e.type==='damage') dmgVal += qty;
+    });
+    if(e.type==='commission') commVal += (e.items.__total||0);
+  });
+  document.getElementById('todaySalesVal').textContent = '৳'+Math.round(salesVal).toLocaleString();
+  document.getElementById('todayOrderVal').textContent = '৳'+Math.round(orderVal).toLocaleString();
+  document.getElementById('todayDamageVal').textContent = dmgVal+' pcs';
+  document.getElementById('todayCommVal').textContent = '৳'+Math.round(commVal).toLocaleString();
+}
+
+function renderDashboard(){
+  const month = new Date().toISOString().slice(0,7);
+  const monthEntries = entries.filter(e=>e.date.startsWith(month));
+  let totalSales=0, totalTarget=0, totalDmg=0, totalComm=0;
+  const srSales = {};
+  monthEntries.forEach(e=>{
+    if(e.type==='sales'){
+      let val=0;
+      PRODUCTS.forEach(p=> val += (e.items[p.name]||0) * p.tp);
+      totalSales += val;
+      srSales[e.dsr] = (srSales[e.dsr]||0) + val;
+    }
+    if(e.type==='damage') PRODUCTS.forEach(p=> totalDmg += (e.items[p.name]||0));
+    if(e.type==='commission') totalComm += (e.items.__total||0);
+  });
+  SR_LIST.forEach(s=> totalTarget += (targets[s.id]?.totalValue || s.target));
+  const achv = totalTarget ? (totalSales/totalTarget*100) : 0;
+  document.getElementById('dbSales').textContent = '৳'+Math.round(totalSales).toLocaleString();
+  document.getElementById('dbSalesTarget').textContent = 'টার্গেট: ৳'+totalTarget.toLocaleString();
+  document.getElementById('dbAchv').textContent = achv.toFixed(1)+'%';
+  document.getElementById('dbAchvBar').style.width = Math.min(achv,100)+'%';
+  document.getElementById('dbDmg').textContent = totalDmg+' pcs';
+  document.getElementById('dbDmgPct').textContent = totalSales? ((totalDmg*30/totalSales*100).toFixed(1)+'%') : '0%';
+  document.getElementById('dbComm').textContent = '৳'+Math.round(totalComm).toLocaleString();
+  const labels = SR_LIST.map(s=>s.name.split(' ')[0]);
+  const salesData = SR_LIST.map(s=> srSales[s.id]||0);
+  const targetData = SR_LIST.map(s=> targets[s.id]?.totalValue || s.target);
+  drawBarChart('chartSR', labels, [
+    {label:'Sales', data:salesData, bg:'#3b82f6'},
+    {label:'Target', data:targetData, bg:'#8b5cf6'}
+  ]);
+  const brandSales = {};
+  monthEntries.filter(e=>e.type==='sales').forEach(e=>{
+    PRODUCTS.forEach(p=>{
+      const q = e.items[p.name]||0;
+      if(q){ const b = p.brand||'Other'; brandSales[b] = (brandSales[b]||0)+q*p.tp; }
+    });
+  });
+  drawPieChart('chartBrand', Object.keys(brandSales), Object.values(brandSales));
+  const ranks = SR_LIST.map(s=>({name:s.name, sales:srSales[s.id]||0, target: targets[s.id]?.totalValue || s.target})).sort((a,b)=>b.sales-a.sales);
+  document.getElementById('rankTable').innerHTML = ranks.map((r,i)=>{
+    const cls = i===0?'gold':i===1?'silver':i===2?'bronze':'normal';
+    const pct = r.target? (r.sales/r.target*100).toFixed(1) : '0';
+    return `<tr><td><span class="rank ${cls}">${i+1}</span></td><td>${r.name}</td><td>৳${Math.round(r.sales).toLocaleString()}</td><td>${pct}%</td></tr>`;
+  }).join('');
+}
+
+function renderInventory(){
+  const month = new Date().toISOString().slice(0,7);
+  const monthEntries = entries.filter(e=>e.date.startsWith(month));
+  const lifting = DB.load('bb_lifting', {});
+  const opening = DB.load('bb_opening', {});
+  let totOpen=0, totLift=0, totSales=0, totClosing=0;
+  let rows='';
+  PRODUCTS.forEach(p=>{
+    const open = opening[p.name]||0;
+    const lift = lifting[p.name]||0;
+    let sales=0, dmg=0;
+    monthEntries.forEach(e=>{
+      const q = e.items[p.name]||0;
+      if(e.type==='sales') sales += q;
+      if(e.type==='damage') dmg += q;
+    });
+    const closing = open + lift - sales - dmg;
+    totOpen+=open; totLift+=lift; totSales+=sales; totClosing+=closing;
+    rows += `<tr><td>${p.name}</td><td>${(open/p.pcs).toFixed(1)}</td><td>${(lift/p.pcs).toFixed(1)}</td><td>${(sales/p.pcs).toFixed(1)}</td><td>${(dmg/p.pcs).toFixed(1)}</td><td style="color:${closing<0?'#f87171':'#34d399'};font-weight:600">${(closing/p.pcs).toFixed(1)}</td></tr>`;
+  });
+  document.getElementById('invTable').innerHTML = rows;
+  document.getElementById('invOpening').textContent = (totOpen/24).toFixed(0)+' ctn';
+  document.getElementById('invLifting').textContent = (totLift/24).toFixed(0)+' ctn';
+  document.getElementById('invSales').textContent = (totSales/24).toFixed(0)+' ctn';
+  document.getElementById('invClosing').textContent = (totClosing/24).toFixed(0)+' ctn';
+}
+
+function renderReports(){
+  const month = new Date().toISOString().slice(0,7);
+  const monthEntries = entries.filter(e=>e.date.startsWith(month));
+  const srSales = {};
+  monthEntries.filter(e=>e.type==='sales').forEach(e=>{
+    let v=0; PRODUCTS.forEach(p=> v += (e.items[p.name]||0)*p.tp);
+    srSales[e.dsr] = (srSales[e.dsr]||0)+v;
+  });
+  document.getElementById('reportTable').innerHTML = SR_LIST.map(s=>{
+    const tgt = targets[s.id]?.totalValue || s.target;
+    const dailyTgt = tgt/26;
+    const sales = srSales[s.id]||0;
+    const achv = tgt? (sales/tgt*100).toFixed(1) : '0';
+    const bounce = Math.max(0, dailyTgt - sales).toFixed(0);
+    const req = Math.max(0, tgt - sales).toFixed(0);
+    return `<tr><td>${s.name.split(' ')[0]}</td><td>৳${tgt.toLocaleString()}</td><td>৳${Math.round(dailyTgt).toLocaleString()}</td><td>${achv}%</td><td>৳${bounce}</td><td>৳${req}</td></tr>`;
+  }).join('');
+  const days = {};
+  monthEntries.filter(e=>e.type==='sales').forEach(e=>{
+    let v=0; PRODUCTS.forEach(p=> v += (e.items[p.name]||0)*p.tp);
+    days[e.date] = (days[e.date]||0)+v;
+  });
+  const sorted = Object.keys(days).sort();
+  drawLineChart('chartTrend', sorted.map(d=>d.slice(8)), Object.values(days));
+}
+
+function renderSetup(){
+  renderTargetInputs();
+  renderProductMaster();
+  if(currentUser==='admin'){
+    document.getElementById('adminPanelCard').style.display = 'block';
+    USER_DB = DB.load('bb_users', DEFAULT_USERS);
+    document.getElementById('pwdUser').innerHTML = Object.keys(USER_DB).map(k=>`<option value="${k}">${USER_DB[k].name} (${USER_DB[k].role})</option>`).join('');
+  } else {
+    document.getElementById('adminPanelCard').style.display = 'none';
+  }
+}
+
+function renderTargetInputs(){
+  const sr = document.getElementById('setupSR')?.value;
+  if(!sr) return;
+  const tgt = targets[sr]?.items || {};
+  document.getElementById('targetInputs').innerHTML = PRODUCTS.map((p,i)=>`
+    <div class="form-row" style="align-items:center;margin-bottom:8px">
+      <div style="font-size:11px">${p.name}<br><span style="font-size:9px;color:var(--muted)">৳${p.tp} • ${p.pcs}pcs/ctn</span></div>
+      <input type="number" id="tgt_${i}" value="${tgt[p.name]||''}" placeholder="কার্টন" inputmode="numeric" style="padding:9px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;text-align:center">
+    </div>`).join('');
+}
+
+function saveTarget(){
+  const sr = document.getElementById('setupSR').value;
+  const items = {};
+  let totalValue = 0;
+  PRODUCTS.forEach((p,i)=>{
+    const ctn = parseInt(document.getElementById('tgt_'+i).value)||0;
+    if(ctn>0){
+      const pcs = ctn * p.pcs;
+      items[p.name] = ctn;
+      totalValue += pcs * p.tp;
+    }
+  });
+  targets[sr] = {items, totalValue};
+  DB.save('bb_targets', targets);
+  toast('✅ টার্গেট সেভ! (৳'+Math.round(totalValue).toLocaleString()+')');
+}
+
+function renderProductMaster(){
+  document.getElementById('prodMasterTable').innerHTML = PRODUCTS.map(p=>`<tr><td>${p.name}</td><td>${p.pcs}</td><td>৳${p.tp}</td><td>৳${p.dp}</td></tr>`).join('');
+}
+
+function changePassword(){
+  const u = document.getElementById('pwdUser').value;
+  const np = document.getElementById('newPass').value.trim();
+  if(np.length < 4){ toast('কমপক্ষে ৪ ডিজিট দিন', true); return; }
+  USER_DB = DB.load('bb_users', DEFAULT_USERS);
+  USER_DB[u].pass = np;
+  DB.save('bb_users', USER_DB);
+  document.getElementById('newPass').value = '';
+  toast('✅ পাসওয়ার্ড পরিবর্তন হয়েছে');
+}
+
+function resetPasswords(){
+  if(!confirm('সব পাসওয়ার্ড ডিফল্টে ফিরে যাবে?')) return;
+  DB.save('bb_users', DEFAULT_USERS);
+  USER_DB = DEFAULT_USERS;
+  toast('✅ ডিফল্ট পাসওয়ার্ড রিসেট');
+}
+
+function exportData(){
+  const data = {entries, targets, users:DB.load('bb_users',DEFAULT_USERS), lifting:DB.load('bb_lifting',{}), opening:DB.load('bb_opening',{})};
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'bhaibhai_backup_'+Date.now()+'.json';
+  a.click();
+  toast('✅ এক্সপোর্ট হয়েছে');
+}
+
+function importData(e){
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try{
+      const d = JSON.parse(ev.target.result);
+      if(d.entries){ entries = d.entries; DB.save('bb_entries', entries); }
+      if(d.targets){ targets = d.targets; DB.save('bb_targets', targets); }
+      if(d.users){ DB.save('bb_users', d.users); }
+      if(d.lifting){ DB.save('bb_lifting', d.lifting); }
+      if(d.opening){ DB.save('bb_opening', d.opening); }
+      toast('✅ ইমপোর্ট সম্পন্ন');
+      setTimeout(()=>location.reload(), 800);
+    }catch(err){ toast('ভুল ফাইল', true); }
+  };
+  r.readAsText(f);
+}
+
+function resetAll(){
+  if(!confirm('সব ডেটা মুছে যাবে! নিশ্চিত?')) return;
+  localStorage.clear();
+  location.reload();
+}
+
+let chartInstances = {};
+function drawBarChart(id, labels, datasets){
+  if(chartInstances[id]) chartInstances[id].destroy();
+  chartInstances[id] = new Chart(document.getElementById(id), {
+    type:'bar',
+    data:{labels, datasets:datasets.map(d=>({label:d.label, data:d.data, backgroundColor:d.bg, borderRadius:6}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:10}}}},
+      scales:{x:{ticks:{color:'#94a3b8',font:{size:10}},grid:{display:false}},
+              y:{ticks:{color:'#94a3b8',font:{size:10}},grid:{color:'rgba(148,163,184,0.1)'}}}}
+  });
+}
+function drawPieChart(id, labels, data){
+  if(chartInstances[id]) chartInstances[id].destroy();
+  chartInstances[id] = new Chart(document.getElementById(id), {
+    type:'doughnut',
+    data:{labels, datasets:[{data, backgroundColor:['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#ec4899','#06b6d4','#fbbf24','#84cc16','#6366f1','#14b8a6','#f97316','#a855f7','#22c55e','#eab308'], borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:9},boxWidth:10,padding:6}}}}
+  });
+}
+function drawLineChart(id, labels, data){
+  if(chartInstances[id]) chartInstances[id].destroy();
+  chartInstances[id] = new Chart(document.getElementById(id), {
+    type:'line',
+    data:{labels, datasets:[{label:'Daily Sales (৳)', data, borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,0.15)', fill:true, tension:0.4, pointRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:10}}}},
+      scales:{x:{ticks:{color:'#94a3b8',font:{size:9}},grid:{display:false}},
+              y:{ticks:{color:'#94a3b8',font:{size:9}},grid:{color:'rgba(148,163,184,0.1)'}}}}
+  });
+}
+
+function toast(msg, err){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (err?' error':'');
+  setTimeout(()=> t.className='toast', 2200);
+}
+
+window.addEventListener('load', ()=>{
+  const u = DB.load('bb_current_user', null);
+  if(u){
+    currentUser = u;
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('appScreen').style.display='block';
+    initApp();
+  }
+});
+</script>
+</body>
+</html>
