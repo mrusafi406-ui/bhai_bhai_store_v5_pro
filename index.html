@@ -3,101 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#ffffff">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081840.png">
 <title>Bhai Bhai Store v5 PRO</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{
-  --bg:#0f172a; --bg2:#1e293b; --card:#1e293b; --card2:#334155;
-  --primary:#3b82f6; --success:#10b981; --danger:#ef4444;
-  --warning:#f59e0b; --purple:#8b5cf6;
-  --text:#f1f5f9; --muted:#94a3b8; --border:#334155;
-  --grad1:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --card2:#eef2f7;
+  --primary:#2563eb;
+  --primary2:#1d4ed8;
+  --success:#059669;
+  --danger:#dc2626;
+  --warning:#d97706;
+  --purple:#7c3aed;
+  --pink:#db2777;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --grad1:linear-gradient(135deg,#3b82f6,#6366f1);
   --grad2:linear-gradient(135deg,#10b981,#06b6d4);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:'Segoe UI',system-ui,sans-serif}
 body{background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;font-size:14px}
-.watermark{position:fixed;bottom:90px;right:10px;font-size:10px;color:rgba(148,163,184,0.25);font-style:italic;z-index:1;pointer-events:none;transform:rotate(-90deg);transform-origin:right bottom;white-space:nowrap}
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at top,#1e3a8a,#0f172a)}
-.login-card{background:var(--card);padding:30px 22px;border-radius:20px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.5);border:1px solid var(--border)}
-.login-logo{width:80px;height:80px;margin:0 auto 15px;background:var(--grad1);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 10px 30px rgba(59,130,246,0.4)}
-.login-card h1{text-align:center;font-size:22px;margin-bottom:5px;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.watermark{position:fixed;bottom:90px;right:10px;font-size:10px;color:rgba(100,116,139,0.35);font-style:italic;z-index:1;pointer-events:none;transform:rotate(-90deg);transform-origin:right bottom;white-space:nowrap}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#eff6ff,#f5f3ff)}
+.login-card{background:#fff;padding:30px 22px;border-radius:22px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(37,99,235,0.15);border:1px solid var(--border)}
+.login-logo{width:80px;height:80px;margin:0 auto 15px;background:var(--grad1);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 10px 30px rgba(59,130,246,0.35)}
+.login-card h1{text-align:center;font-size:22px;margin-bottom:5px;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800}
 .login-card p{text-align:center;color:var(--muted);font-size:12px;margin-bottom:25px}
-.login-card label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;margin-top:14px}
-.login-card select,.login-card input{width:100%;padding:13px 14px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;outline:none}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--grad1);color:#fff;font-size:15px;font-weight:600;margin-top:22px;cursor:pointer;box-shadow:0 8px 20px rgba(59,130,246,0.4)}
-.header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,0.95);backdrop-filter:blur(10px);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.login-card label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;margin-top:14px;font-weight:600}
+.login-card select,.login-card input{width:100%;padding:13px 14px;background:#f8fafc;border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;outline:none}
+.login-card select:focus,.login-card input:focus{border-color:var(--primary);background:#fff}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--grad1);color:#fff;font-size:15px;font-weight:700;margin-top:22px;cursor:pointer;box-shadow:0 8px 20px rgba(59,130,246,0.35)}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:100;background:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,0.04)}
 .header-left{display:flex;align-items:center;gap:10px}
 .header-logo{width:36px;height:36px;background:var(--grad1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.header-title{font-size:15px;font-weight:700}
-.header-sub{font-size:10px;color:var(--muted)}
+.header-title{font-size:15px;font-weight:800;color:var(--text)}
+.header-sub{font-size:10px;color:var(--muted);font-weight:500}
 .header-right{display:flex;gap:8px;align-items:center}
-.icon-btn{width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:var(--text)}
-.tab-nav{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none}
+.icon-btn{width:36px;height:36px;border-radius:10px;background:#f1f5f9;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:var(--text)}
+.user-chip{display:flex;align-items:center;gap:6px;background:#f1f5f9;padding:6px 10px;border-radius:20px;font-size:11px;border:1px solid var(--border);font-weight:600}
+.user-avatar{width:22px;height:22px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+
+/* TABS */
+.tab-nav{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;background:#fff;border-bottom:1px solid var(--border)}
 .tab-nav::-webkit-scrollbar{display:none}
-.tab-btn{flex-shrink:0;padding:10px 18px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
-.tab-btn.active{background:var(--grad1);color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(59,130,246,0.4)}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(15,23,42,0.98);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 4px 10px;z-index:99}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--muted);font-size:9px;cursor:pointer}
+.tab-btn{flex-shrink:0;padding:9px 16px;border-radius:12px;background:#f1f5f9;border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.2s}
+.tab-btn.active{background:var(--grad1);color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(59,130,246,0.35)}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 4px 10px;z-index:99;box-shadow:0 -2px 12px rgba(0,0,0,0.05)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--muted);font-size:9px;cursor:pointer;font-weight:600}
 .nav-item.active{color:var(--primary)}
 .nav-item .ico{font-size:18px}
-.container{padding:0 16px 20px}
-.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px;border:1px solid var(--border);box-shadow:0 4px 14px rgba(0,0,0,0.2)}
-.card-title{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
-.card-title .badge{font-size:10px;padding:3px 8px;border-radius:6px;background:var(--card2);color:var(--muted);font-weight:500}
+.nav-item.active .ico{transform:scale(1.15)}
+
+/* CARDS */
+.container{padding:14px 16px 20px}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px;border:1px solid var(--border);box-shadow:0 4px 14px rgba(15,23,42,0.04)}
+.card-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.card-title .badge{font-size:10px;padding:3px 8px;border-radius:6px;background:#f1f5f9;color:var(--muted);font-weight:600}
+
+/* STAT CARDS */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.stat-card{background:var(--card);border-radius:14px;padding:14px;border:1px solid var(--border);position:relative;overflow:hidden}
+.stat-card{background:var(--card);border-radius:14px;padding:14px;border:1px solid var(--border);position:relative;overflow:hidden;box-shadow:0 4px 14px rgba(15,23,42,0.04)}
 .stat-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
 .stat-card.blue::before{background:var(--primary)}
 .stat-card.green::before{background:var(--success)}
 .stat-card.orange::before{background:var(--warning)}
 .stat-card.red::before{background:var(--danger)}
 .stat-card.purple::before{background:var(--purple)}
-.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
-.stat-value{font-size:19px;font-weight:700}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;margin-bottom:6px;font-weight:700}
+.stat-value{font-size:19px;font-weight:800;color:var(--text)}
 .stat-sub{font-size:10px;color:var(--muted);margin-top:4px}
-.stat-card.blue .stat-value{color:#60a5fa}
-.stat-card.green .stat-value{color:#34d399}
-.stat-card.orange .stat-value{color:#fbbf24}
-.stat-card.red .stat-value{color:#f87171}
-.stat-card.purple .stat-value{color:#a78bfa}
+.stat-card.blue .stat-value{color:#2563eb}
+.stat-card.green .stat-value{color:#059669}
+.stat-card.orange .stat-value{color:#d97706}
+.stat-card.red .stat-value{color:#dc2626}
+.stat-card.purple .stat-value{color:#7c3aed}
+
+/* FORMS */
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .form-group{margin-bottom:10px}
-.form-group label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:500}
-.form-group input,.form-group select{width:100%;padding:11px 12px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;outline:none}
-.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border)}
+.form-group label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:700}
+.form-group input,.form-group select{width:100%;padding:11px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;outline:none}
+.form-group input:focus,.form-group select:focus{border-color:var(--primary);background:#fff}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);background:#fff}
 table{width:100%;border-collapse:collapse;font-size:11px}
-th{background:var(--card2);padding:9px 8px;text-align:left;font-weight:600;color:var(--muted);font-size:10px;text-transform:uppercase;white-space:nowrap}
-td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
+th{background:#f1f5f9;padding:10px 8px;text-align:left;font-weight:800;color:var(--muted);font-size:10px;text-transform:uppercase;white-space:nowrap;letter-spacing:0.3px}
+td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap;color:var(--text)}
+tr:nth-child(even) td{background:#fafbfc}
+
+/* CHART */
 .chart-box{position:relative;height:220px;margin-top:8px}
-.btn-sm{padding:8px 14px;border:none;border-radius:9px;background:var(--primary);color:#fff;font-size:12px;font-weight:600;cursor:pointer}
-.btn-sm.green{background:var(--success)}
-.btn-sm.red{background:var(--danger)}
-.btn-sm.orange{background:var(--warning)}
-.btn-sm.purple{background:var(--purple)}
+
+/* BUTTONS */
+.btn-sm{padding:9px 14px;border:none;border-radius:10px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(37,99,235,0.25)}
+.btn-sm.green{background:var(--success);box-shadow:0 4px 10px rgba(5,150,105,0.25)}
+.btn-sm.red{background:var(--danger);box-shadow:0 4px 10px rgba(220,38,38,0.25)}
+.btn-sm.orange{background:var(--warning);box-shadow:0 4px 10px rgba(217,119,6,0.25)}
+.btn-sm.purple{background:var(--purple);box-shadow:0 4px 10px rgba(124,58,237,0.25)}
 .btn-row{display:flex;gap:8px;margin-top:12px}
-.progress{height:8px;background:var(--bg);border-radius:5px;overflow:hidden;margin-top:6px}
+
+/* PROGRESS */
+.progress{height:8px;background:#e2e8f0;border-radius:5px;overflow:hidden;margin-top:6px}
 .progress-bar{height:100%;background:var(--grad2);border-radius:5px;transition:width 0.5s}
-.rank{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700}
-.rank.gold{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000}
-.rank.silver{background:linear-gradient(135deg,#e5e7eb,#9ca3af);color:#000}
+
+/* RANK */
+.rank{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.rank.gold{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff}
+.rank.silver{background:linear-gradient(135deg,#cbd5e1,#94a3b8);color:#fff}
 .rank.bronze{background:linear-gradient(135deg,#d97706,#92400e);color:#fff}
-.rank.normal{background:var(--card2);color:var(--muted)}
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--success);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:all 0.3s}
+.rank.normal{background:#e2e8f0;color:var(--muted)}
+
+/* TOAST */
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--success);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:700;z-index:999;opacity:0;transition:all 0.3s;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast.error{background:var(--danger)}
+
 .section{display:none}
-.section.active{display:block}
-.user-chip{display:flex;align-items:center;gap:6px;background:var(--card);padding:6px 10px;border-radius:20px;font-size:11px;border:1px solid var(--border)}
-.user-avatar{width:22px;height:22px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.section.active{display:block;animation:fadeIn 0.25s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 
 <div class="watermark">Developed by Maruf@Hossain. All rights reserved.</div>
 
+<!-- LOGIN -->
 <div id="loginScreen" class="login-wrap">
   <div class="login-card">
     <div class="login-logo">🏪</div>
@@ -120,6 +162,7 @@ td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
   </div>
 </div>
 
+<!-- APP -->
 <div id="appScreen" style="display:none">
   <div class="header">
     <div class="header-left">
@@ -147,6 +190,7 @@ td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
   </div>
 
   <div class="container">
+    <!-- ENTRY -->
     <div id="sec-entry" class="section active">
       <div class="card">
         <div class="card-title">📝 প্রতিদিনের এন্ট্রি <span class="badge" id="todayDate"></span></div>
@@ -165,7 +209,7 @@ td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
             </select>
           </div>
         </div>
-        <div style="font-size:11px;color:var(--muted);margin:14px 0 8px;font-weight:600">প্রোডাক্ট এন্ট্রি (Pcs)</div>
+        <div style="font-size:11px;color:var(--muted);margin:14px 0 8px;font-weight:800">প্রোডাক্ট এন্ট্রি (Pcs)</div>
         <div id="productInputs" style="max-height:340px;overflow-y:auto;padding-right:4px"></div>
         <div class="btn-row">
           <button class="btn-sm green" style="flex:1;padding:12px" onclick="saveEntry()">💾 সেভ করুন</button>
@@ -175,14 +219,15 @@ td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
       <div class="card">
         <div class="card-title">📊 আজকের সামারি</div>
         <div class="stat-grid" style="margin-bottom:0">
-          <div class="stat-card blue"><div class="stat-label">আজকের সেলস (৳)</div><div class="stat-value" id="todaySalesVal">৳0</div></div>
-          <div class="stat-card green"><div class="stat-label">আজকের অর্ডার (৳)</div><div class="stat-value" id="todayOrderVal">৳0</div></div>
+          <div class="stat-card blue"><div class="stat-label">আজকের সেলস</div><div class="stat-value" id="todaySalesVal">৳0</div></div>
+          <div class="stat-card green"><div class="stat-label">আজকের অর্ডার</div><div class="stat-value" id="todayOrderVal">৳0</div></div>
           <div class="stat-card orange"><div class="stat-label">আজকের ড্যামেজ</div><div class="stat-value" id="todayDamageVal">0 pcs</div></div>
-          <div class="stat-card purple"><div class="stat-label">আজকের কমিশন (৳)</div><div class="stat-value" id="todayCommVal">৳0</div></div>
+          <div class="stat-card purple"><div class="stat-label">আজকের কমিশন</div><div class="stat-value" id="todayCommVal">৳0</div></div>
         </div>
       </div>
     </div>
 
+    <!-- DASHBOARD -->
     <div id="sec-dashboard" class="section">
       <div class="stat-grid">
         <div class="stat-card blue"><div class="stat-label">মাসিক সেলস</div><div class="stat-value" id="dbSales">৳0</div><div class="stat-sub" id="dbSalesTarget">টার্গেট: ৳0</div></div>
@@ -197,6 +242,7 @@ td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
       </div>
     </div>
 
+    <!-- INVENTORY -->
     <div id="sec-inventory" class="section">
       <div class="stat-grid">
         <div class="stat-card blue"><div class="stat-label">ওপেনিং স্টক</div><div class="stat-value" id="invOpening">0</div></div>
@@ -209,13 +255,15 @@ td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
       </div>
     </div>
 
+    <!-- REPORTS -->
     <div id="sec-reports" class="section">
       <div class="card"><div class="card-title">📊 SR-ওয়াইজ রিপোর্ট</div>
-        <div class="tbl-wrap"><table><thead><tr><th>SR</th><th>মাসিক টার্গেট</th><th>ডেইলি টার্গেট</th><th>অ্যাচিভমেন্ট</th><th>বাউন্স</th><th>রিকোয়ারমেন্ট</th></tr></thead><tbody id="reportTable"></tbody></table></div>
+        <div class="tbl-wrap"><table><thead><tr><th>SR</th><th>মাসিক টার্গেট</th><th>ডেইলি টার্গেট</th><th>অ্যাচিভ%</th><th>বাউন্স</th><th>রিকোয়ারমেন্ট</th></tr></thead><tbody id="reportTable"></tbody></table></div>
       </div>
       <div class="card"><div class="card-title">📉 ডেইলি সেলস ট্রেন্ড</div><div class="chart-box"><canvas id="chartTrend"></canvas></div></div>
     </div>
 
+    <!-- SETUP -->
     <div id="sec-setup" class="section">
       <div class="card"><div class="card-title">🎯 মাসিক টার্গেট সেটআপ <span class="badge">কার্টুন এককে</span></div>
         <div class="form-group"><label>SR নির্বাচন</label><select id="setupSR" onchange="renderTargetInputs()"></select></div>
@@ -256,6 +304,10 @@ td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
 <div class="toast" id="toast"></div>
 
 <script>
+/* ================= SYNC URL ================= */
+const SYNC_URL = "https://script.google.com/macros/s/AKfycbwK1Cz32Eo8tXaH5ffWxlpTnbeQUFpl4CSl62GiYFOPc4j8hJ1-SeE4JZMGdXPHjxR4Aw/exec";
+
+/* ================= MASTER DATA ================= */
 const PRODUCTS = [
   {name:"P-up 250ml", pcs:24, tp:15.21, dp:12.7, brand:"Pran"},
   {name:"P-up 750ml", pcs:12, tp:31.04, dp:28.35, brand:"Pran"},
@@ -322,6 +374,24 @@ let targets = DB.load('bb_targets', {});
 let USER_DB = DB.load('bb_users', DEFAULT_USERS);
 let currentUser = null;
 
+/* ================= GOOGLE SHEETS SYNC ================= */
+function syncToSheet(action, data){
+  if(!SYNC_URL || SYNC_URL.includes('আপনার_URL')){
+    console.log('Sync URL not set');
+    return;
+  }
+  const payload = Object.assign({action: action}, data);
+  fetch(SYNC_URL, {
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body: JSON.stringify(payload)
+  }).then(()=>{
+    console.log('✅ Synced to Google Sheet');
+  }).catch(e=> console.log('Sync error:', e));
+}
+
+/* ================= LOGIN ================= */
 function doLogin(){
   const u = document.getElementById('loginUser').value;
   const p = document.getElementById('loginPin').value.trim();
@@ -349,6 +419,10 @@ function switchTab(id, el){
   document.getElementById('sec-'+id).classList.add('active');
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   if(el) el.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const order = ['entry','dashboard','inventory','reports','setup'];
+  const idx = order.indexOf(id);
+  if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='dashboard') renderDashboard();
   if(id==='inventory') renderInventory();
   if(id==='reports') renderReports();
@@ -385,8 +459,8 @@ function renderEntryProducts(){
   const box = document.getElementById('productInputs');
   box.innerHTML = PRODUCTS.map((p,i)=>`
     <div class="form-row" style="align-items:center;margin-bottom:8px">
-      <div style="font-size:11px">${p.name}<br><span style="font-size:9px;color:var(--muted)">৳${p.tp} • ${p.pcs}pcs/ctn</span></div>
-      <input type="number" id="pin_${i}" placeholder="0" inputmode="numeric" style="padding:9px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;text-align:center">
+      <div style="font-size:11px;font-weight:600">${p.name}<br><span style="font-size:9px;color:var(--muted)">৳${p.tp} • ${p.pcs}pcs/ctn</span></div>
+      <input type="number" id="pin_${i}" placeholder="0" inputmode="numeric" style="padding:9px;background:#f8fafc;border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;text-align:center">
     </div>`).join('');
 }
 
@@ -407,8 +481,19 @@ function saveEntry(){
     if(v>0){ items[p.name] = v; total += v; }
   });
   if(total===0){ toast('কোনো প্রোডাক্ট এন্ট্রি দিন', true); return; }
-  entries.push({id:Date.now(), date, route, dsr, type, items, ts:new Date().toISOString()});
+  
+  const entryData = {
+    id: Date.now(),
+    date, route, dsr, type,
+    items,
+    ts: new Date().toISOString()
+  };
+  entries.push(entryData);
   DB.save('bb_entries', entries);
+  
+  // ✅ Google Sheets-এ Sync
+  syncToSheet('saveEntry', entryData);
+  
   clearEntry();
   renderTodaySummary();
   toast('✅ সেভ হয়েছে!');
@@ -433,6 +518,7 @@ function renderTodaySummary(){
   document.getElementById('todayCommVal').textContent = '৳'+Math.round(commVal).toLocaleString();
 }
 
+/* ================= DASHBOARD ================= */
 function renderDashboard(){
   const month = new Date().toISOString().slice(0,7);
   const monthEntries = entries.filter(e=>e.date.startsWith(month));
@@ -457,13 +543,15 @@ function renderDashboard(){
   document.getElementById('dbDmg').textContent = totalDmg+' pcs';
   document.getElementById('dbDmgPct').textContent = totalSales? ((totalDmg*30/totalSales*100).toFixed(1)+'%') : '0%';
   document.getElementById('dbComm').textContent = '৳'+Math.round(totalComm).toLocaleString();
+
   const labels = SR_LIST.map(s=>s.name.split(' ')[0]);
   const salesData = SR_LIST.map(s=> srSales[s.id]||0);
   const targetData = SR_LIST.map(s=> targets[s.id]?.totalValue || s.target);
   drawBarChart('chartSR', labels, [
     {label:'Sales', data:salesData, bg:'#3b82f6'},
-    {label:'Target', data:targetData, bg:'#8b5cf6'}
+    {label:'Target', data:targetData, bg:'#a78bfa'}
   ]);
+
   const brandSales = {};
   monthEntries.filter(e=>e.type==='sales').forEach(e=>{
     PRODUCTS.forEach(p=>{
@@ -472,6 +560,7 @@ function renderDashboard(){
     });
   });
   drawPieChart('chartBrand', Object.keys(brandSales), Object.values(brandSales));
+
   const ranks = SR_LIST.map(s=>({name:s.name, sales:srSales[s.id]||0, target: targets[s.id]?.totalValue || s.target})).sort((a,b)=>b.sales-a.sales);
   document.getElementById('rankTable').innerHTML = ranks.map((r,i)=>{
     const cls = i===0?'gold':i===1?'silver':i===2?'bronze':'normal';
@@ -480,6 +569,7 @@ function renderDashboard(){
   }).join('');
 }
 
+/* ================= INVENTORY ================= */
 function renderInventory(){
   const month = new Date().toISOString().slice(0,7);
   const monthEntries = entries.filter(e=>e.date.startsWith(month));
@@ -498,7 +588,7 @@ function renderInventory(){
     });
     const closing = open + lift - sales - dmg;
     totOpen+=open; totLift+=lift; totSales+=sales; totClosing+=closing;
-    rows += `<tr><td>${p.name}</td><td>${(open/p.pcs).toFixed(1)}</td><td>${(lift/p.pcs).toFixed(1)}</td><td>${(sales/p.pcs).toFixed(1)}</td><td>${(dmg/p.pcs).toFixed(1)}</td><td style="color:${closing<0?'#f87171':'#34d399'};font-weight:600">${(closing/p.pcs).toFixed(1)}</td></tr>`;
+    rows += `<tr><td>${p.name}</td><td>${(open/p.pcs).toFixed(1)}</td><td>${(lift/p.pcs).toFixed(1)}</td><td>${(sales/p.pcs).toFixed(1)}</td><td>${(dmg/p.pcs).toFixed(1)}</td><td style="color:${closing<0?'#dc2626':'#059669'};font-weight:700">${(closing/p.pcs).toFixed(1)}</td></tr>`;
   });
   document.getElementById('invTable').innerHTML = rows;
   document.getElementById('invOpening').textContent = (totOpen/24).toFixed(0)+' ctn';
@@ -507,6 +597,7 @@ function renderInventory(){
   document.getElementById('invClosing').textContent = (totClosing/24).toFixed(0)+' ctn';
 }
 
+/* ================= REPORTS ================= */
 function renderReports(){
   const month = new Date().toISOString().slice(0,7);
   const monthEntries = entries.filter(e=>e.date.startsWith(month));
@@ -533,6 +624,7 @@ function renderReports(){
   drawLineChart('chartTrend', sorted.map(d=>d.slice(8)), Object.values(days));
 }
 
+/* ================= SETUP ================= */
 function renderSetup(){
   renderTargetInputs();
   renderProductMaster();
@@ -551,8 +643,8 @@ function renderTargetInputs(){
   const tgt = targets[sr]?.items || {};
   document.getElementById('targetInputs').innerHTML = PRODUCTS.map((p,i)=>`
     <div class="form-row" style="align-items:center;margin-bottom:8px">
-      <div style="font-size:11px">${p.name}<br><span style="font-size:9px;color:var(--muted)">৳${p.tp} • ${p.pcs}pcs/ctn</span></div>
-      <input type="number" id="tgt_${i}" value="${tgt[p.name]||''}" placeholder="কার্টন" inputmode="numeric" style="padding:9px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;text-align:center">
+      <div style="font-size:11px;font-weight:600">${p.name}<br><span style="font-size:9px;color:var(--muted)">৳${p.tp} • ${p.pcs}pcs/ctn</span></div>
+      <input type="number" id="tgt_${i}" value="${tgt[p.name]||''}" placeholder="কার্টন" inputmode="numeric" style="padding:9px;background:#f8fafc;border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;text-align:center">
     </div>`).join('');
 }
 
@@ -570,6 +662,10 @@ function saveTarget(){
   });
   targets[sr] = {items, totalValue};
   DB.save('bb_targets', targets);
+  
+  // ✅ Google Sheets-এ Sync
+  syncToSheet('saveTarget', {sr, totalValue, items});
+  
   toast('✅ টার্গেট সেভ! (৳'+Math.round(totalValue).toLocaleString()+')');
 }
 
@@ -577,6 +673,7 @@ function renderProductMaster(){
   document.getElementById('prodMasterTable').innerHTML = PRODUCTS.map(p=>`<tr><td>${p.name}</td><td>${p.pcs}</td><td>৳${p.tp}</td><td>৳${p.dp}</td></tr>`).join('');
 }
 
+/* ================= USER MANAGEMENT ================= */
 function changePassword(){
   const u = document.getElementById('pwdUser').value;
   const np = document.getElementById('newPass').value.trim();
@@ -595,6 +692,7 @@ function resetPasswords(){
   toast('✅ ডিফল্ট পাসওয়ার্ড রিসেট');
 }
 
+/* ================= DATA ================= */
 function exportData(){
   const data = {entries, targets, users:DB.load('bb_users',DEFAULT_USERS), lifting:DB.load('bb_lifting',{}), opening:DB.load('bb_opening',{})};
   const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
@@ -629,15 +727,16 @@ function resetAll(){
   location.reload();
 }
 
+/* ================= CHARTS ================= */
 let chartInstances = {};
 function drawBarChart(id, labels, datasets){
   if(chartInstances[id]) chartInstances[id].destroy();
   chartInstances[id] = new Chart(document.getElementById(id), {
     type:'bar',
     data:{labels, datasets:datasets.map(d=>({label:d.label, data:d.data, backgroundColor:d.bg, borderRadius:6}))},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:10}}}},
-      scales:{x:{ticks:{color:'#94a3b8',font:{size:10}},grid:{display:false}},
-              y:{ticks:{color:'#94a3b8',font:{size:10}},grid:{color:'rgba(148,163,184,0.1)'}}}}
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#64748b',font:{size:10}}}},
+      scales:{x:{ticks:{color:'#64748b',font:{size:10}},grid:{display:false}},
+              y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(100,116,139,0.1)'}}}}
   });
 }
 function drawPieChart(id, labels, data){
@@ -645,20 +744,21 @@ function drawPieChart(id, labels, data){
   chartInstances[id] = new Chart(document.getElementById(id), {
     type:'doughnut',
     data:{labels, datasets:[{data, backgroundColor:['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#ec4899','#06b6d4','#fbbf24','#84cc16','#6366f1','#14b8a6','#f97316','#a855f7','#22c55e','#eab308'], borderWidth:0}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:9},boxWidth:10,padding:6}}}}
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#64748b',font:{size:9},boxWidth:10,padding:6}}}}
   });
 }
 function drawLineChart(id, labels, data){
   if(chartInstances[id]) chartInstances[id].destroy();
   chartInstances[id] = new Chart(document.getElementById(id), {
     type:'line',
-    data:{labels, datasets:[{label:'Daily Sales (৳)', data, borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,0.15)', fill:true, tension:0.4, pointRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:10}}}},
-      scales:{x:{ticks:{color:'#94a3b8',font:{size:9}},grid:{display:false}},
-              y:{ticks:{color:'#94a3b8',font:{size:9}},grid:{color:'rgba(148,163,184,0.1)'}}}}
+    data:{labels, datasets:[{label:'Daily Sales (৳)', data, borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,0.1)', fill:true, tension:0.4, pointRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#64748b',font:{size:10}}}},
+      scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{display:false}},
+              y:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(100,116,139,0.1)'}}}}
   });
 }
 
+/* ================= TOAST ================= */
 function toast(msg, err){
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -666,6 +766,7 @@ function toast(msg, err){
   setTimeout(()=> t.className='toast', 2200);
 }
 
+/* ================= AUTO LOGIN ================= */
 window.addEventListener('load', ()=>{
   const u = DB.load('bb_current_user', null);
   if(u){
