@@ -1,331 +1,506 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#0f172a">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081840.png">
-<title>Bhai Bhai Store v7 PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Bhai Bhai Store — Sales & Inventory System</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-:root{--bg:#f5f7fb;--card:#fff;--card2:#eef2f7;--primary:#2563eb;--success:#059669;--danger:#dc2626;--warning:#d97706;--purple:#7c3aed;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--grad1:linear-gradient(135deg,#3b82f6,#6366f1);--grad2:linear-gradient(135deg,#10b981,#06b6d4)}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:'Segoe UI',system-ui,sans-serif}
-body{background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;font-size:14px}
-.watermark{position:fixed;bottom:90px;right:10px;font-size:10px;color:rgba(100,116,139,0.35);font-style:italic;z-index:1;pointer-events:none;transform:rotate(-90deg);transform-origin:right bottom;white-space:nowrap}
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#eff6ff,#f5f3ff)}
-.login-card{background:#fff;padding:30px 22px;border-radius:22px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(37,99,235,0.15);border:1px solid var(--border)}
-.login-logo{width:80px;height:80px;margin:0 auto 15px;background:var(--grad1);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px}
-.login-card h1{text-align:center;font-size:22px;margin-bottom:5px;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800}
-.login-card p{text-align:center;color:var(--muted);font-size:12px;margin-bottom:25px}
-.login-card label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;margin-top:14px;font-weight:600}
-.login-card select,.login-card input{width:100%;padding:13px 14px;background:#f8fafc;border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;outline:none}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--grad1);color:#fff;font-size:15px;font-weight:700;margin-top:22px;cursor:pointer}
-.header{position:sticky;top:0;z-index:100;background:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.header-left{display:flex;align-items:center;gap:10px}
-.header-logo{width:36px;height:36px;background:var(--grad1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.header-title{font-size:15px;font-weight:800}
-.header-sub{font-size:10px;color:var(--muted);font-weight:500}
-.header-right{display:flex;gap:8px;align-items:center}
-.icon-btn{width:36px;height:36px;border-radius:10px;background:#f1f5f9;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
-.user-chip{display:flex;align-items:center;gap:6px;background:#f1f5f9;padding:6px 10px;border-radius:20px;font-size:11px;border:1px solid var(--border);font-weight:600}
-.user-avatar{width:22px;height:22px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
-.tab-nav{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;background:#fff;border-bottom:1px solid var(--border)}
-.tab-nav::-webkit-scrollbar{display:none}
-.tab-btn{flex-shrink:0;padding:9px 16px;border-radius:12px;background:#f1f5f9;border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
-.tab-btn.active{background:var(--grad1);color:#fff;border-color:transparent}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 4px 10px;z-index:99}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--muted);font-size:9px;cursor:pointer;font-weight:600}
-.nav-item.active{color:var(--primary)}
-.nav-item .ico{font-size:18px}
-.container{padding:14px 16px 20px}
-.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px;border:1px solid var(--border);box-shadow:0 4px 14px rgba(15,23,42,0.04)}
-.card-title{font-size:13px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
-.card-title .badge{font-size:10px;padding:3px 8px;border-radius:6px;background:#f1f5f9;color:var(--muted);font-weight:600}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.stat-grid.triple{grid-template-columns:1fr 1fr 1fr}
-.stat-card{background:var(--card);border-radius:14px;padding:14px;border:1px solid var(--border);position:relative;overflow:hidden}
-.stat-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
-.stat-card.blue::before{background:var(--primary)}
-.stat-card.green::before{background:var(--success)}
-.stat-card.orange::before{background:var(--warning)}
-.stat-card.red::before{background:var(--danger)}
-.stat-card.purple::before{background:var(--purple)}
-.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;margin-bottom:6px;font-weight:700}
-.stat-value{font-size:17px;font-weight:800}
-.stat-sub{font-size:10px;color:var(--muted);margin-top:4px}
-.stat-card.blue .stat-value{color:#2563eb}
-.stat-card.green .stat-value{color:#059669}
-.stat-card.orange .stat-value{color:#d97706}
-.stat-card.red .stat-value{color:#dc2626}
-.stat-card.purple .stat-value{color:#7c3aed}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.form-row.three{grid-template-columns:1fr 1fr 1fr}
-.form-group{margin-bottom:10px}
-.form-group label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:700}
-.form-group input,.form-group select{width:100%;padding:11px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;outline:none}
-.form-group input:focus,.form-group select:focus{border-color:var(--primary);background:#fff}
-.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);background:#fff}
-table{width:100%;border-collapse:collapse;font-size:11px}
-th{background:#f1f5f9;padding:10px 8px;text-align:left;font-weight:800;color:var(--muted);font-size:10px;text-transform:uppercase;white-space:nowrap}
-td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap}
-tr:nth-child(even) td{background:#fafbfc}
-.chart-box{position:relative;height:220px;margin-top:8px}
-.btn-sm{padding:9px 14px;border:none;border-radius:10px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;cursor:pointer}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#f1f5f9;--surface:#ffffff;--surface-2:#f8fafc;--surface-3:#e2e8f0;
+  --primary:#0f4c81;--primary-2:#1e6bb8;--primary-light:#e0ecf8;
+  --accent:#f59e0b;--success:#059669;--success-light:#d1fae5;
+  --danger:#dc2626;--danger-light:#fee2e2;--warning:#d97706;--warning-light:#fed7aa;
+  --purple:#7c3aed;--purple-light:#ede9fe;
+  --text:#0f172a;--text-2:#334155;--muted:#64748b;--muted-2:#94a3b8;
+  --border:#e2e8f0;--border-2:#cbd5e1;
+  --shadow-sm:0 1px 2px rgba(15,23,42,0.05);
+  --shadow:0 2px 8px rgba(15,23,42,0.06);
+  --shadow-md:0 4px 16px rgba(15,23,42,0.08);
+  --shadow-lg:0 8px 32px rgba(15,23,42,0.12);
+  --radius:12px;--radius-sm:8px;--radius-lg:16px;
+}
+html,body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{padding-bottom:76px;min-height:100vh;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;outline:none}
+input,select,textarea{font-family:inherit;font-size:14px;outline:none}
+
+/* WATERMARK */
+.watermark{
+  text-align:center;font-size:10px;color:var(--muted-2);
+  padding:24px 16px 32px;font-weight:500;letter-spacing:0.3px;
+  border-top:1px solid var(--border);margin-top:24px;
+}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#0f4c81 0%,#1e6bb8 50%,#2563eb 100%);position:relative;overflow:hidden}
+.login-wrap::before{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,0.05);top:-100px;right:-100px}
+.login-wrap::after{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.05);bottom:-80px;left:-80px}
+.login-card{background:#fff;padding:36px 26px;border-radius:20px;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(0,0,0,0.35);position:relative;z-index:2}
+.login-logo{width:76px;height:76px;margin:0 auto 18px;background:linear-gradient(135deg,#0f4c81,#2563eb);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 12px 32px rgba(15,76,129,0.4)}
+.login-card h1{text-align:center;font-size:23px;margin-bottom:4px;font-weight:800;letter-spacing:-0.5px;color:var(--text)}
+.login-card .sub{text-align:center;color:var(--muted);font-size:11px;margin-bottom:28px;letter-spacing:0.5px;text-transform:uppercase;font-weight:600}
+.login-card label{display:block;font-size:11px;color:var(--text-2);margin-bottom:7px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase}
+.login-card select,.login-card input{width:100%;padding:13px 14px;background:var(--surface-2);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-weight:500;transition:all 0.15s}
+.login-card select:focus,.login-card input:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px var(--primary-light)}
+.login-card .field{margin-bottom:16px}
+
+/* BUTTONS */
+.btn{width:100%;padding:14px;border-radius:10px;background:linear-gradient(135deg,#0f4c81,#2563eb);color:#fff;font-size:14px;font-weight:700;letter-spacing:0.3px;box-shadow:0 6px 20px rgba(15,76,129,0.35);transition:all 0.15s;margin-top:8px}
+.btn:active{transform:scale(0.985)}
+.btn-sm{padding:9px 14px;border-radius:8px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;letter-spacing:0.2px;transition:all 0.15s;display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.btn-sm:active{transform:scale(0.97)}
 .btn-sm.green{background:var(--success)}
 .btn-sm.red{background:var(--danger)}
 .btn-sm.orange{background:var(--warning)}
 .btn-sm.purple{background:var(--purple)}
-.btn-sm.gray{background:#e2e8f0;color:var(--text)}
-.btn-row{display:flex;gap:8px;margin-top:12px}
-.progress{height:8px;background:#e2e8f0;border-radius:5px;overflow:hidden;margin-top:6px}
-.progress-bar{height:100%;background:var(--grad2);border-radius:5px;transition:width 0.5s}
-.rank{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:800}
-.rank.gold{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff}
-.rank.silver{background:linear-gradient(135deg,#cbd5e1,#94a3b8);color:#fff}
-.rank.bronze{background:linear-gradient(135deg,#d97706,#92400e);color:#fff}
-.rank.normal{background:#e2e8f0;color:var(--muted)}
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--success);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:700;z-index:999;opacity:0;transition:all 0.3s}
+.btn-sm.gray{background:var(--muted)}
+.btn-sm.ghost{background:#fff;color:var(--primary);border:1.5px solid var(--primary)}
+.btn-block{width:100%;padding:12px}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:100;background:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(15,23,42,0.04)}
+.header-left{display:flex;align-items:center;gap:11px;min-width:0}
+.header-logo{width:38px;height:38px;background:linear-gradient(135deg,#0f4c81,#2563eb);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 3px 10px rgba(15,76,129,0.25)}
+.header-title{font-size:14px;font-weight:800;letter-spacing:-0.3px;color:var(--text);line-height:1.2}
+.header-sub{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-top:1px}
+.header-right{display:flex;gap:6px;align-items:center}
+.icon-btn{width:36px;height:36px;border-radius:9px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-2);transition:all 0.15s}
+.icon-btn:active{background:var(--surface-3)}
+.user-chip{display:flex;align-items:center;gap:7px;background:var(--surface-2);padding:5px 10px 5px 5px;border-radius:20px;font-size:11px;border:1px solid var(--border);font-weight:700;color:var(--text-2);max-width:120px}
+.user-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#0f4c81,#2563eb);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+.user-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* TAB NAV */
+.tab-nav{display:flex;gap:6px;padding:10px 12px;overflow-x:auto;scrollbar-width:none;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:63px;z-index:99}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:8px 14px;border-radius:9px;background:var(--surface-2);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:700;letter-spacing:0.2px;white-space:nowrap;transition:all 0.15s}
+.tab-btn.active{background:linear-gradient(135deg,#0f4c81,#2563eb);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(15,76,129,0.25)}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:6px 2px 8px;z-index:99;box-shadow:0 -1px 8px rgba(15,23,42,0.04)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 2px;color:var(--muted);font-size:9px;font-weight:700;transition:all 0.15s;letter-spacing:0.1px;cursor:pointer;border-radius:8px;min-width:0}
+.nav-item.active{color:var(--primary)}
+.nav-item .ico{font-size:17px;line-height:1;transition:transform 0.2s}
+.nav-item.active .ico{transform:scale(1.15)}
+.nav-item .lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+/* CONTAINER & CARDS */
+.container{padding:14px 14px 20px}
+.card{background:var(--surface);border-radius:var(--radius);padding:14px;margin-bottom:12px;border:1px solid var(--border);box-shadow:var(--shadow-sm)}
+.card-title{font-size:12px;font-weight:800;color:var(--text);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;text-transform:uppercase;letter-spacing:0.4px}
+.card-title .badge{font-size:9px;padding:3px 8px;border-radius:5px;background:var(--primary-light);color:var(--primary);font-weight:800;text-transform:none;letter-spacing:0.2px}
+.card-title .badge.green{background:var(--success-light);color:var(--success)}
+.card-title .badge.orange{background:var(--warning-light);color:var(--warning)}
+.card-title .badge.purple{background:var(--purple-light);color:var(--purple)}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kpi-grid.three{grid-template-columns:1fr 1fr 1fr}
+.kpi{background:var(--surface);border-radius:var(--radius);padding:13px;border:1px solid var(--border);position:relative;overflow:hidden;box-shadow:var(--shadow-sm)}
+.kpi::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%}
+.kpi.blue::before{background:var(--primary)}
+.kpi.green::before{background:var(--success)}
+.kpi.orange::before{background:var(--warning)}
+.kpi.red::before{background:var(--danger)}
+.kpi.purple::before{background:var(--purple)}
+.kpi-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;font-weight:800}
+.kpi-value{font-size:17px;font-weight:800;letter-spacing:-0.4px;color:var(--text);line-height:1.15}
+.kpi-sub{font-size:9px;color:var(--muted);margin-top:4px;font-weight:600}
+.kpi.blue .kpi-value{color:var(--primary)}
+.kpi.green .kpi-value{color:var(--success)}
+.kpi.orange .kpi-value{color:var(--warning)}
+.kpi.red .kpi-value{color:var(--danger)}
+.kpi.purple .kpi-value{color:var(--purple)}
+
+/* FORMS */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-row.three{grid-template-columns:1fr 1fr 1fr}
+.form-group{margin-bottom:10px}
+.form-group label{display:block;font-size:10px;color:var(--text-2);margin-bottom:5px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase}
+.form-group input,.form-group select{width:100%;padding:10px 12px;background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-weight:500;transition:all 0.15s}
+.form-group input:focus,.form-group select:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px var(--primary-light)}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;border-radius:var(--radius-sm);border:1px solid var(--border);background:#fff}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:var(--surface-2);padding:9px 8px;text-align:left;font-weight:800;color:var(--muted);font-size:9px;text-transform:uppercase;white-space:nowrap;letter-spacing:0.4px;border-bottom:1px solid var(--border)}
+td{padding:9px 8px;border-top:1px solid var(--border);white-space:nowrap;font-weight:500;color:var(--text-2)}
+tr:nth-child(even) td{background:#fafbfc}
+
+/* CHARTS */
+.chart-box{position:relative;height:220px;margin-top:6px}
+
+/* LISTS */
+.list-item{display:flex;align-items:center;justify-content:space-between;padding:11px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px}
+.list-item-name{font-size:13px;font-weight:700;color:var(--text)}
+.list-item-sub{font-size:10px;color:var(--muted);margin-top:2px;font-weight:500}
+.list-item-actions{display:flex;gap:6px}
+.mini-btn{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.15s}
+.mini-btn.del{background:var(--danger-light);color:var(--danger)}
+.mini-btn.edit{background:var(--primary-light);color:var(--primary)}
+.mini-btn:active{transform:scale(0.92)}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(2px);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex;animation:fadeIn 0.2s}
+.modal{background:#fff;border-radius:var(--radius-lg);padding:22px;width:100%;max-width:420px;max-height:82vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.3)}
+.modal h3{font-size:16px;font-weight:800;margin-bottom:16px;color:var(--text);letter-spacing:-0.3px}
+
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--success);color:#fff;padding:11px 20px;border-radius:10px;font-size:12px;font-weight:700;z-index:999;opacity:0;transition:all 0.25s;box-shadow:0 12px 32px rgba(0,0,0,0.25);max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast.error{background:var(--danger)}
-.loader{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:rgba(255,255,255,0.95);padding:20px 30px;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.2);text-align:center;display:none}
-.loader.show{display:block}
-.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 10px}
+
+/* LOADER */
+.loader{position:fixed;inset:0;z-index:9999;background:rgba(255,255,255,0.95);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.loader.show{display:flex}
+.spinner{width:42px;height:42px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loader p{font-size:12px;font-weight:600;color:var(--muted)}
-.search-box{position:relative;margin-bottom:10px}
-.search-box input{padding-left:36px}
-.search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.loader p{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
+
+/* SECTION */
 .section{display:none}
-.section.active{display:block;animation:fadeIn 0.25s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.list-item{display:flex;align-items:center;justify-content:space-between;padding:12px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;margin-bottom:8px}
-.list-item-name{font-size:13px;font-weight:700}
-.list-item-sub{font-size:10px;color:var(--muted);margin-top:2px}
-.list-item-actions{display:flex;gap:6px}
-.mini-btn{width:32px;height:32px;border-radius:8px;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
-.mini-btn.del{background:#fee2e2;color:#991b1b}
-.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-bg.show{display:flex}
-.modal{background:#fff;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto}
-.modal h3{font-size:16px;font-weight:800;margin-bottom:14px}
-.top-rank{display:flex;align-items:center;gap:12px;padding:10px;background:#f8fafc;border-radius:10px;margin-bottom:8px;border:1px solid var(--border)}
-.top-rank .num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;flex-shrink:0}
-.top-rank .info{flex:1}
-.top-rank .name{font-size:12px;font-weight:700}
-.top-rank .sub{font-size:10px;color:var(--muted);margin-top:2px}
-.top-rank .val{font-size:13px;font-weight:800;color:var(--success);text-align:right}
+.section.active{display:block;animation:fadeIn 0.2s}
+
+/* MISC */
+.search-box{position:relative;margin-bottom:10px}
+.search-box input{padding-left:34px}
+.search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;opacity:0.6}
+.progress{height:6px;background:var(--surface-3);border-radius:3px;overflow:hidden;margin-top:6px}
+.progress-bar{height:100%;background:linear-gradient(90deg,#10b981,#06b6d4);border-radius:3px;transition:width 0.5s}
+.rank-badge{display:inline-flex;width:22px;height:22px;border-radius:50%;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+.rank-badge.gold{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff}
+.rank-badge.silver{background:linear-gradient(135deg,#cbd5e1,#94a3b8);color:#fff}
+.rank-badge.bronze{background:linear-gradient(135deg,#d97706,#92400e);color:#fff}
+.rank-badge.normal{background:var(--surface-3);color:var(--muted)}
+
 .filter-chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;scrollbar-width:none;padding:2px 0}
 .filter-chips::-webkit-scrollbar{display:none}
-.chip{padding:7px 14px;border-radius:20px;background:#f1f5f9;border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;cursor:pointer}
-.chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.chip{padding:7px 14px;border-radius:20px;background:var(--surface-2);border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;transition:all 0.15s}
+.chip.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 4px 10px rgba(15,76,129,0.25)}
+
+.empty{text-align:center;padding:36px 14px;color:var(--muted);font-size:12px;font-weight:600}
+.empty .icon{font-size:36px;margin-bottom:8px;opacity:0.5}
+
+.info-banner{background:linear-gradient(135deg,#0f4c81,#2563eb);color:#fff;padding:16px;border-radius:var(--radius);margin-bottom:12px;position:relative;overflow:hidden}
+.info-banner::after{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,0.08);top:-50px;right:-50px}
+.info-banner h2{font-size:14px;font-weight:800;letter-spacing:-0.2px;margin-bottom:3px;position:relative;z-index:2}
+.info-banner p{font-size:10px;opacity:0.85;font-weight:600;position:relative;z-index:2;letter-spacing:0.3px}
+
+.dsr-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.dsr-chip{padding:6px 12px;border-radius:16px;background:var(--surface-2);border:1.5px solid var(--border);font-size:11px;font-weight:700;color:var(--muted);transition:all 0.15s}
+.dsr-chip.selected{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+.btn-row{display:flex;gap:8px;margin-top:12px}
 </style>
 </head>
 <body>
 
-<div class="watermark">Developed by Maruf@Hossain. All rights reserved.</div>
-<div class="loader" id="loader"><div class="spinner"></div><p>লোড হচ্ছে...</p></div>
+<div class="loader" id="loader"><div class="spinner"></div><p>Loading...</p></div>
 
+<!-- LOGIN -->
 <div id="loginScreen" class="login-wrap">
   <div class="login-card">
     <div class="login-logo">🏪</div>
     <h1>Bhai Bhai Store</h1>
-    <p>v7 PRO • Sales & Inventory System</p>
-    <label>👤 ব্যবহারকারী নির্বাচন করুন</label>
-    <select id="loginUser"></select>
-    <label>🔒 পাসওয়ার্ড</label>
-    <input type="password" id="loginPin" placeholder="পাসওয়ার্ড দিন" inputmode="numeric">
-    <button class="btn" onclick="doLogin()">লগইন করুন →</button>
-    <p style="margin-top:20px;font-size:10px;opacity:0.5;text-align:center">Developed by Maruf@Hossain</p>
+    <div class="sub">Sales & Inventory System</div>
+    <div class="field">
+      <label>Select User</label>
+      <select id="loginUser"></select>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="loginPin" placeholder="Enter password" inputmode="numeric">
+    </div>
+    <button class="btn" onclick="doLogin()">Sign In →</button>
+    <p style="text-align:center;font-size:10px;color:var(--muted);margin-top:20px;font-weight:500">©2026-27. Developed by Maruf@Hossain</p>
   </div>
 </div>
 
+<!-- APP -->
 <div id="appScreen" style="display:none">
   <div class="header">
     <div class="header-left">
       <div class="header-logo">🏪</div>
       <div>
         <div class="header-title">Bhai Bhai Store</div>
-        <div class="header-sub" id="hdrSub">v7 PRO</div>
+        <div class="header-sub" id="hdrSub">v8 PRO</div>
       </div>
     </div>
     <div class="header-right">
       <div class="icon-btn" onclick="loadFromSheet()" title="Sync">🔄</div>
       <div class="user-chip">
-        <div class="user-avatar" id="userAvatar">M</div>
-        <span id="userName">Maruf</span>
+        <div class="user-avatar" id="userAvatar">A</div>
+        <span id="userName">Admin</span>
       </div>
-      <div class="icon-btn" onclick="doLogout()">⏻</div>
+      <div class="icon-btn" onclick="doLogout()" title="Logout">⏻</div>
     </div>
   </div>
 
   <div class="tab-nav" id="tabNav"></div>
 
   <div class="container">
-    <div id="sec-entry" class="section active">
+    <!-- 1. DASHBOARD -->
+    <div id="sec-dashboard" class="section active">
+      <div class="info-banner">
+        <h2 id="dashGreeting">Welcome, Admin</h2>
+        <p>Business overview for <span id="dashMonth"></span></p>
+      </div>
+      <div class="form-row" style="margin-bottom:12px">
+        <div class="form-group" style="margin-bottom:0"><label>Month</label><select id="dashMonthSel" onchange="renderDashboard()"></select></div>
+        <div class="form-group" style="margin-bottom:0"><label>Year</label><select id="dashYearSel" onchange="renderDashboard()"></select></div>
+      </div>
+      <div class="kpi-grid three">
+        <div class="kpi blue"><div class="kpi-label">Total Sales</div><div class="kpi-value" id="kpiSales">৳0</div></div>
+        <div class="kpi purple"><div class="kpi-label">Target</div><div class="kpi-value" id="kpiTarget">৳0</div></div>
+        <div class="kpi green"><div class="kpi-label">Achievement</div><div class="kpi-value" id="kpiAchv">0%</div></div>
+      </div>
+      <div class="kpi-grid three">
+        <div class="kpi orange"><div class="kpi-label">Order</div><div class="kpi-value" id="kpiOrder">৳0</div></div>
+        <div class="kpi red"><div class="kpi-label">Damage</div><div class="kpi-value" id="kpiDamage">0</div></div>
+        <div class="kpi purple"><div class="kpi-label">Commission</div><div class="kpi-value" id="kpiComm">৳0</div></div>
+      </div>
       <div class="card">
-        <div class="card-title">📝 প্রতিদিনের এন্ট্রি <span class="badge" id="todayDate"></span></div>
+        <div class="card-title">Monthly Progress <span class="badge" id="monthBadge"></span></div>
+        <div class="progress"><div class="progress-bar" id="monthProgress"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:7px;color:var(--muted);font-weight:700">
+          <span id="monthElapsed">0 days elapsed</span>
+          <span id="monthRemain">0 days left</span>
+        </div>
+      </div>
+      <div class="card"><div class="card-title">Sales vs Target — Sales Officers</div><div class="chart-box"><canvas id="chartSO"></canvas></div></div>
+      <div class="card"><div class="card-title">7-Day Sales Trend</div><div class="chart-box"><canvas id="chartWeek"></canvas></div></div>
+      <div class="card"><div class="card-title">Top 5 Products</div><div id="top5List"></div></div>
+      <div class="card"><div class="card-title">Sales Officers Ranking</div>
+        <div class="tbl-wrap"><table><thead><tr><th>#</th><th>Sales Officer</th><th>Sales</th><th>Achv%</th></tr></thead><tbody id="rankTable"></tbody></table></div>
+      </div>
+      <div class="watermark">©2026-27. Developed by Maruf@Hossain. All rights reserved.</div>
+    </div>
+
+    <!-- 2. STOCK -->
+    <div id="sec-stock" class="section">
+      <div class="info-banner"><h2>Stock Report</h2><p>Warehouse stock overview</p></div>
+      <div class="kpi-grid">
+        <div class="kpi blue"><div class="kpi-label">Opening</div><div class="kpi-value" id="invOpening">0</div><div class="kpi-sub" id="invOpeningVal">৳0</div></div>
+        <div class="kpi green"><div class="kpi-label">Lifting</div><div class="kpi-value" id="invLifting">0</div><div class="kpi-sub" id="invLiftingVal">৳0</div></div>
+        <div class="kpi orange"><div class="kpi-label">Sales</div><div class="kpi-value" id="invSales">0</div><div class="kpi-sub" id="invSalesVal">৳0</div></div>
+        <div class="kpi red"><div class="kpi-label">Present</div><div class="kpi-value" id="invPresent">0</div><div class="kpi-sub" id="invPresentVal">৳0</div></div>
+      </div>
+      <div class="card"><div class="card-title">Stock Report <span class="badge">Cartons</span></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Product</th><th>Opening</th><th>Lifting</th><th>Sales</th><th>Present</th></tr></thead><tbody id="invTable"></tbody></table></div>
+      </div>
+      <div class="card" id="stockEntryCard" style="display:none">
+        <div class="card-title">Stock Entry <span class="badge purple">Admin Only</span></div>
         <div class="form-row">
-          <div class="form-group"><label>তারিখ</label><input type="date" id="entryDate"></div>
-          <div class="form-group"><label>রুট</label><select id="entryRoute"></select></div>
+          <div class="form-group"><label>Type</label>
+            <select id="stockType"><option value="opening">Opening Stock</option><option value="lifting">Lifting</option></select>
+          </div>
+          <div class="form-group"><label>Date</label><input type="date" id="stockDate"></div>
+        </div>
+        <div id="stockInputs" style="max-height:280px;overflow-y:auto"></div>
+        <button class="btn-sm green btn-block" style="margin-top:10px" onclick="saveStock()">💾 Save Stock</button>
+      </div>
+      <div class="watermark">©2026-27. Developed by Maruf@Hossain. All rights reserved.</div>
+    </div>
+
+    <!-- 3. REPORT -->
+    <div id="sec-report" class="section">
+      <div class="info-banner"><h2>Reports</h2><p>Performance analytics</p></div>
+      <div class="form-row">
+        <div class="form-group"><label>Month</label><select id="repMonthSel" onchange="renderReports()"></select></div>
+        <div class="form-group"><label>Year</label><select id="repYearSel" onchange="renderReports()"></select></div>
+      </div>
+      <div class="card"><div class="card-title">Sales Officer Performance</div>
+        <div class="tbl-wrap"><table><thead><tr><th>Officer</th><th>Target</th><th>Sales</th><th>Achv%</th></tr></thead><tbody id="repTable"></tbody></table></div>
+      </div>
+      <div class="card"><div class="card-title">Daily Sales Trend</div><div class="chart-box"><canvas id="chartTrend"></canvas></div></div>
+      <div class="card"><div class="card-title">Damage Report</div>
+        <div class="tbl-wrap"><table><thead><tr><th>Officer</th><th>Warehouse</th><th>Returned</th><th>Present</th></tr></thead><tbody id="damageReportTable"></tbody></table></div>
+      </div>
+      <div class="watermark">©2026-27. Developed by Maruf@Hossain. All rights reserved.</div>
+    </div>
+
+    <!-- 4. TOP SELLING -->
+    <div id="sec-top" class="section">
+      <div class="info-banner"><h2>Top Selling Product/Item</h2><p>Best performers this month</p></div>
+      <div class="filter-chips" id="topFilter"></div>
+      <div class="card"><div class="card-title">Top 10 Products <span class="badge" id="topBadge">Combined</span></div><div id="topList"></div></div>
+      <div class="card"><div class="card-title">Top 10 Comparison</div><div class="chart-box" style="height:280px"><canvas id="chartTop"></canvas></div></div>
+      <div class="card"><div class="card-title">Details</div>
+        <div class="tbl-wrap"><table><thead><tr><th>#</th><th>Product</th><th>Ctn</th><th>Value</th><th>%</th></tr></thead><tbody id="topTable"></tbody></table></div>
+      </div>
+      <div class="watermark">©2026-27. Developed by Maruf@Hossain. All rights reserved.</div>
+    </div>
+
+    <!-- 5. AUTOMATION & VC COOLER -->
+    <div id="sec-automation" class="section">
+      <div class="info-banner"><h2>Automation & VC Cooler</h2><p>SPRO & DMS tracking</p></div>
+      <div class="kpi-grid three">
+        <div class="kpi blue"><div class="kpi-label">Today Outlet</div><div class="kpi-value" id="autoTodayOutlet">0</div></div>
+        <div class="kpi green"><div class="kpi-label">Today Visit</div><div class="kpi-value" id="autoTodayVisit">0</div></div>
+        <div class="kpi purple"><div class="kpi-label">Visit%</div><div class="kpi-value" id="autoTodayVisitPct">0%</div></div>
+      </div>
+      <div class="kpi-grid three">
+        <div class="kpi orange"><div class="kpi-label">VC Cooler</div><div class="kpi-value" id="autoVCCooler">0</div></div>
+        <div class="kpi purple"><div class="kpi-label">VC Visit</div><div class="kpi-value" id="autoVCVisit">0</div></div>
+        <div class="kpi green"><div class="kpi-label">VC%</div><div class="kpi-value" id="autoVCPct">0%</div></div>
+      </div>
+      <div class="card"><div class="card-title">SPRO & DMS — Weekly Report</div>
+        <div class="tbl-wrap"><table><thead><tr><th>Officer</th><th>Outlet</th><th>Visit</th><th>Visit%</th><th>DMS</th></tr></thead><tbody id="autoWeekTable"></tbody></table></div>
+      </div>
+      <div class="card" id="autoEntryCard">
+        <div class="card-title">SPRO & DMS — Entry <span class="badge purple">Admin Only</span></div>
+        <div class="form-row">
+          <div class="form-group"><label>Date</label><input type="date" id="autoDate"></div>
+          <div class="form-group"><label>Sales Officer</label><select id="autoSO"></select></div>
+        </div>
+        <div class="form-group"><label>Route</label><select id="autoRoute"></select></div>
+        <div class="form-row">
+          <div class="form-group"><label>Outlet</label><input type="number" id="autoOutlet" placeholder="0" inputmode="numeric"></div>
+          <div class="form-group"><label>Visit</label><input type="number" id="autoVisit" placeholder="0" inputmode="numeric"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>VC Cooler</label><input type="number" id="autoVC" placeholder="0" inputmode="numeric"></div>
+          <div class="form-group"><label>VC Visit</label><input type="number" id="autoVCV" placeholder="0" inputmode="numeric"></div>
+        </div>
+        <div class="form-group"><label>DMS</label>
+          <select id="autoDMS"><option value="Yes">✅ Yes</option><option value="No">❎ No</option></select>
+        </div>
+        <button class="btn-sm green btn-block" onclick="saveAutomation()">💾 Save Entry</button>
+      </div>
+      <div class="watermark">©2026-27. Developed by Maruf@Hossain. All rights reserved.</div>
+    </div>
+
+    <!-- 6. DAMAGE & COMMISSION -->
+    <div id="sec-damage" class="section">
+      <div class="info-banner"><h2>Damage & Commission</h2><p>Warehouse damage & company returns</p></div>
+      <div class="kpi-grid three">
+        <div class="kpi orange"><div class="kpi-label">Warehouse Damage</div><div class="kpi-value" id="dmgWarehouse">0</div></div>
+        <div class="kpi red"><div class="kpi-label">Return to Company</div><div class="kpi-value" id="dmgReturn">0</div></div>
+        <div class="kpi purple"><div class="kpi-label">Total Damage Stock</div><div class="kpi-value" id="dmgTotal">0</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Damage Entry <span class="badge purple">Admin Only</span></div>
+        <div class="form-row">
+          <div class="form-group"><label>Date</label><input type="date" id="dmgDate"></div>
+          <div class="form-group"><label>Type</label>
+            <select id="dmgType"><option value="warehouse">Warehouse Damage</option><option value="return">Return to Company</option></select>
+          </div>
+        </div>
+        <div id="dmgInputs" style="max-height:280px;overflow-y:auto"></div>
+        <button class="btn-sm green btn-block" style="margin-top:10px" onclick="saveDamage()">💾 Save Damage</button>
+      </div>
+      <div class="card"><div class="card-title">Damage Report <span class="badge">Cartons</span></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Product</th><th>Warehouse</th><th>Returned</th><th>Total</th></tr></thead><tbody id="dmgTable"></tbody></table></div>
+      </div>
+      <div class="card"><div class="card-title">Damage by Officer</div><div class="chart-box"><canvas id="chartDmg"></canvas></div></div>
+      <div class="watermark">©2026-27. Developed by Maruf@Hossain. All rights reserved.</div>
+    </div>
+
+    <!-- 7. ENTRY -->
+    <div id="sec-entry" class="section">
+      <div class="info-banner"><h2>Daily Entry</h2><p id="entryWelcome">Welcome</p></div>
+      <div class="card">
+        <div class="card-title">Entry Form <span class="badge" id="todayDate"></span></div>
+        <div class="form-row">
+          <div class="form-group"><label>Date</label><input type="date" id="entryDate"></div>
+          <div class="form-group"><label>Route</label><select id="entryRoute"></select></div>
         </div>
         <div class="form-row">
           <div class="form-group"><label>DSR</label><select id="entryDSR"></select></div>
-          <div class="form-group"><label>এন্ট্রি টাইপ</label>
+          <div class="form-group"><label>Entry Type</label>
             <select id="entryType">
-              <option value="order">অর্ডার</option>
-              <option value="sales">সেলস</option>
-              <option value="damage">ড্যামেজ</option>
-              <option value="discount">ডিসকাউন্ট (৳)</option>
+              <option value="order">Order</option>
+              <option value="sales">Sales</option>
+              <option value="damage">Damage</option>
+              <option value="commission">Commission (৳)</option>
             </select>
           </div>
         </div>
-        <div class="search-box"><input type="text" id="prodSearch" placeholder="প্রোডাক্ট খুঁজুন..." oninput="filterProducts(this.value)"></div>
+        <div class="search-box"><input type="text" id="prodSearch" placeholder="Search product..." oninput="filterProducts(this.value)"></div>
         <div id="productInputs" style="max-height:340px;overflow-y:auto;padding-right:4px"></div>
-        <div class="btn-row">
-          <button class="btn-sm green" style="flex:1;padding:12px" onclick="saveEntry()">💾 সেভ</button>
-          <button class="btn-sm gray" style="flex:0.5;padding:12px" onclick="clearEntry()">🔄</button>
+        <div class="btn-row" style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn-sm green" style="flex:1;padding:12px" onclick="saveEntry()">💾 Save Entry</button>
+          <button class="btn-sm gray" style="flex:0.4;padding:12px" onclick="clearEntry()">🔄</button>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">📊 আজকের সামারি</div>
-        <div class="stat-grid triple">
-          <div class="stat-card blue"><div class="stat-label">অর্ডার Ctn</div><div class="stat-value" id="tOrdCtn">0</div></div>
-          <div class="stat-card blue"><div class="stat-label">অর্ডার ৳</div><div class="stat-value" id="tOrdVal">৳0</div></div>
-          <div class="stat-card green"><div class="stat-label">সেলস Ctn</div><div class="stat-value" id="tSalCtn">0</div></div>
-          <div class="stat-card green"><div class="stat-label">সেলস ৳</div><div class="stat-value" id="tSalVal">৳0</div></div>
-          <div class="stat-card orange"><div class="stat-label">ড্যামেজ</div><div class="stat-value" id="tDmg">0</div></div>
-          <div class="stat-card purple"><div class="stat-label">ডিসকাউন্ট</div><div class="stat-value" id="tDisc">৳0</div></div>
+        <div class="card-title">Today Summary</div>
+        <div class="kpi-grid three">
+          <div class="kpi blue"><div class="kpi-label">Order Ctn</div><div class="kpi-value" id="tOrdCtn">0</div></div>
+          <div class="kpi blue"><div class="kpi-label">Order ৳</div><div class="kpi-value" id="tOrdVal">৳0</div></div>
+          <div class="kpi green"><div class="kpi-label">Sales Ctn</div><div class="kpi-value" id="tSalCtn">0</div></div>
+          <div class="kpi green"><div class="kpi-label">Sales ৳</div><div class="kpi-value" id="tSalVal">৳0</div></div>
+          <div class="kpi orange"><div class="kpi-label">Damage</div><div class="kpi-value" id="tDmg">0</div></div>
+          <div class="kpi purple"><div class="kpi-label">Commission</div><div class="kpi-value" id="tDisc">৳0</div></div>
         </div>
       </div>
+      <div class="watermark">©2026-27. Developed by Maruf@Hossain. All rights reserved.</div>
     </div>
 
-    <div id="sec-dashboard" class="section">
-      <div class="stat-grid triple">
-        <div class="stat-card blue"><div class="stat-label">মাসিক সেলস</div><div class="stat-value" id="dbSales">৳0</div></div>
-        <div class="stat-card blue"><div class="stat-label">টার্গেট</div><div class="stat-value" id="dbTarget">৳0</div></div>
-        <div class="stat-card green"><div class="stat-label">অ্যাচিভমেন্ট</div><div class="stat-value" id="dbAchv">0%</div></div>
-      </div>
-      <div class="card">
-        <div class="card-title">📅 মাসিক প্রগ্রেস <span class="badge" id="monthBadge"></span></div>
-        <div class="progress"><div class="progress-bar" id="monthProgress"></div></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;margin-top:8px;color:var(--muted)">
-          <span id="monthElapsed">০ দিন পার</span>
-          <span id="monthRemain">০ দিন বাকি</span>
-        </div>
-      </div>
-      <div class="stat-grid">
-        <div class="stat-card orange"><div class="stat-label">মোট ড্যামেজ</div><div class="stat-value" id="dbDmg">0</div></div>
-        <div class="stat-card purple"><div class="stat-label">মোট ডিসকাউন্ট</div><div class="stat-value" id="dbDisc">৳0</div></div>
-      </div>
-      <div class="card"><div class="card-title">📈 সেলস vs টার্গেট (SR-wise)</div><div class="chart-box"><canvas id="chartSR"></canvas></div></div>
-      <div class="card"><div class="card-title">🥧 ব্র্যান্ড মিক্স</div><div class="chart-box"><canvas id="chartBrand"></canvas></div></div>
-      <div class="card"><div class="card-title">📉 ৭ দিনের ট্রেন্ড</div><div class="chart-box"><canvas id="chartWeek"></canvas></div></div>
-      <div class="card"><div class="card-title">🏆 SR র‍্যাংকিং</div>
-        <div class="tbl-wrap"><table><thead><tr><th>র‍্যাংক</th><th>SR</th><th>সেলস</th><th>অ্যাচিভ%</th></tr></thead><tbody id="rankTable"></tbody></table></div>
-      </div>
-    </div>
-
-    <div id="sec-topprod" class="section">
-      <div class="card">
-        <div class="card-title">🏆 Top Selling Products <span class="badge" id="topBadge">Overall</span></div>
-        <div class="filter-chips" id="topFilter"></div>
-        <div id="topProductsList"></div>
-      </div>
-      <div class="card"><div class="card-title">📊 Top 10 Comparison</div><div class="chart-box" style="height:280px"><canvas id="chartTop"></canvas></div></div>
-      <div class="card"><div class="card-title">📋 Top Products Details</div>
-        <div class="tbl-wrap"><table><thead><tr><th>#</th><th>Product</th><th>Ctn</th><th>Value</th><th>%</th></tr></thead><tbody id="topTable"></tbody></table></div>
-      </div>
-    </div>
-
-    <div id="sec-inventory" class="section">
-      <div class="stat-grid">
-        <div class="stat-card blue"><div class="stat-label">ওপেনিং</div><div class="stat-value" id="invOpening">0</div><div class="stat-sub" id="invOpeningVal">৳0</div></div>
-        <div class="stat-card green"><div class="stat-label">লিফটিং</div><div class="stat-value" id="invLifting">0</div><div class="stat-sub" id="invLiftingVal">৳0</div></div>
-        <div class="stat-card orange"><div class="stat-label">সেলস</div><div class="stat-value" id="invSales">0</div><div class="stat-sub" id="invSalesVal">৳0</div></div>
-        <div class="stat-card red"><div class="stat-label">ক্লোজিং</div><div class="stat-value" id="invClosing">0</div><div class="stat-sub" id="invClosingVal">৳0</div></div>
-      </div>
-      <div class="card" id="stockEntryCard" style="display:none">
-        <div class="card-title">➕ স্টক এন্ট্রি <span class="badge">Admin</span></div>
-        <div class="form-row">
-          <div class="form-group"><label>টাইপ</label>
-            <select id="stockType">
-              <option value="opening">ওপেনিং স্টক</option>
-              <option value="lifting">লিফটিং</option>
-            </select>
-          </div>
-          <div class="form-group"><label>তারিখ</label><input type="date" id="stockDate"></div>
-        </div>
-        <div id="stockInputs" style="max-height:280px;overflow-y:auto"></div>
-        <button class="btn-sm green" style="width:100%;padding:12px;margin-top:10px" onclick="saveStock()">💾 স্টক সেভ</button>
-      </div>
-      <div class="card"><div class="card-title">📦 স্টক রিপোর্ট <span class="badge">কার্টুন</span></div>
-        <div class="tbl-wrap"><table><thead><tr><th>প্রোডাক্ট</th><th>ওপেনিং</th><th>লিফটিং</th><th>সেলস</th><th>ক্লোজিং</th></tr></thead><tbody id="invTable"></tbody></table></div>
-      </div>
-    </div>
-
-    <div id="sec-reports" class="section">
-      <div class="card"><div class="card-title">📊 SR-ওয়াইজ রিপোর্ট</div>
-        <div class="tbl-wrap"><table><thead><tr><th>SR</th><th>টার্গেট</th><th>সেলস</th><th>অ্যাচিভ%</th></tr></thead><tbody id="reportTable"></tbody></table></div>
-      </div>
-      <div class="card"><div class="card-title">📉 ডেইলি ট্রেন্ড</div><div class="chart-box"><canvas id="chartTrend"></canvas></div></div>
-    </div>
-
+    <!-- 8. SETUP -->
     <div id="sec-setup" class="section">
+      <div class="info-banner"><h2>Setup</h2><p>Master data management</p></div>
       <div class="card">
-        <div class="card-title">📦 প্রোডাক্ট মাস্টার <span class="badge" id="prodCount">0</span></div>
-        <button class="btn-sm green" style="width:100%;margin-bottom:10px;padding:12px" onclick="openProductModal()">➕ নতুন প্রোডাক্ট</button>
+        <div class="card-title">Item List <span class="badge" id="prodCount">0</span></div>
+        <button class="btn-sm green btn-block" style="margin-bottom:10px" onclick="openProductModal()">➕ New Product</button>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>SL</th><th>Name</th><th>Pack</th><th>TP(pcs)</th><th>Ctn TP</th><th>DP(pcs)</th><th>Ctn DP</th><th></th></tr></thead>
-          <tbody id="prodMasterTable"></tbody>
+          <thead><tr><th>#</th><th>Item Name</th><th>Pack</th><th>TP Rate</th><th>Ctn TP</th><th>DP Rate</th><th>Ctn DP</th><th></th></tr></thead>
+          <tbody id="prodTable"></tbody>
         </table></div>
       </div>
-
       <div class="card">
-        <div class="card-title">👤 SR তালিকা <span class="badge" id="srCount">0</span></div>
-        <button class="btn-sm green" style="width:100%;margin-bottom:10px;padding:12px" onclick="openSRModal()">➕ নতুন SR</button>
-        <div id="srList"></div>
+        <div class="card-title">Sales Officers <span class="badge" id="soCount">0</span></div>
+        <button class="btn-sm green btn-block" style="margin-bottom:10px" onclick="openSOModal()">➕ New Sales Officer</button>
+        <div id="soList"></div>
       </div>
-
       <div class="card">
-        <div class="card-title">🧑‍💼 DSR তালিকা <span class="badge" id="dsrCount">0</span></div>
-        <button class="btn-sm green" style="width:100%;margin-bottom:10px;padding:12px" onclick="openDSRModal()">➕ নতুন DSR</button>
+        <div class="card-title">DSR List <span class="badge" id="dsrCount">0</span></div>
+        <button class="btn-sm green btn-block" style="margin-bottom:10px" onclick="openDSRModal()">➕ New DSR</button>
         <div id="dsrList"></div>
       </div>
-
       <div class="card">
-        <div class="card-title">🛣️ রুট তালিকা <span class="badge" id="routeCount">0</span></div>
-        <button class="btn-sm green" style="width:100%;margin-bottom:10px;padding:12px" onclick="openRouteModal()">➕ নতুন রুট</button>
+        <div class="card-title">Route List <span class="badge" id="routeCount">0</span></div>
+        <button class="btn-sm green btn-block" style="margin-bottom:10px" onclick="openRouteModal()">➕ New Route</button>
         <div id="routeList"></div>
       </div>
-
       <div class="card">
-        <div class="card-title">🎯 SR টার্গেট সেটআপ <span class="badge">কার্টুন</span></div>
-        <div class="form-group"><label>SR নির্বাচন</label><select id="setupSR" onchange="renderTargetInputs()"></select></div>
-        <div id="targetInputs" style="max-height:340px;overflow-y:auto"></div>
-        <div style="margin-top:12px;padding:12px;background:#f1f5f9;border-radius:10px">
-          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
-            <span style="font-weight:700">মোট কার্টুন:</span>
-            <span id="tgtTotalCtn" style="font-weight:800">0</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;font-size:12px">
-            <span style="font-weight:700">মোট ভ্যালু:</span>
-            <span id="tgtTotalVal" style="font-weight:800;color:var(--success)">৳0</span>
-          </div>
-        </div>
-        <button class="btn-sm green" style="width:100%;padding:12px;margin-top:10px" onclick="saveTarget()">💾 টার্গেট সেভ</button>
+        <div class="card-title">Special Guest's <span class="badge purple" id="guestCount">0</span></div>
+        <button class="btn-sm green btn-block" style="margin-bottom:10px" onclick="openGuestModal()">➕ New Guest</button>
+        <div id="guestList"></div>
       </div>
-
       <div class="card">
-        <div class="card-title">💾 ডেটা ম্যানেজমেন্ট</div>
-        <div class="btn-row">
-          <button class="btn-sm" style="flex:1" onclick="exportData()">⬇️ এক্সপোর্ট</button>
-          <button class="btn-sm orange" style="flex:1" onclick="document.getElementById('importFile').click()">⬆️ ইমপোর্ট</button>
+        <div class="card-title">Monthly Target Setup <span class="badge">Cartons</span></div>
+        <div class="form-row">
+          <div class="form-group"><label>Sales Officer</label><select id="setupSO" onchange="renderTargetInputs()"></select></div>
+          <div class="form-group"><label>Month/Year</label><input type="month" id="setupMonth"></div>
+        </div>
+        <button class="btn-sm btn-block" style="margin-bottom:10px" onclick="loadTarget()">📥 Load Target</button>
+        <div id="targetInputs" style="max-height:340px;overflow-y:auto"></div>
+        <div style="margin-top:12px;padding:12px;background:var(--surface-2);border-radius:10px;border:1px solid var(--border)">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="font-weight:700">Total Cartons:</span><span id="tgtTotalCtn" style="font-weight:800;color:var(--primary)">0</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="font-weight:700">Total Value:</span><span id="tgtTotalVal" style="font-weight:800;color:var(--success)">৳0</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="font-weight:700">Daily Target:</span><span id="tgtDailyVal" style="font-weight:800;color:var(--warning)">৳0</span></div>
+        </div>
+        <button class="btn-sm green btn-block" style="margin-top:10px" onclick="saveTarget()">💾 Save Target</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Data Management</div>
+        <div class="btn-row" style="display:flex;gap:8px">
+          <button class="btn-sm btn-block" onclick="exportData()">⬇️ Export</button>
+          <button class="btn-sm orange btn-block" onclick="document.getElementById('importFile').click()">⬆️ Import</button>
         </div>
         <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
-        <button class="btn-sm red" style="width:100%;margin-top:10px;padding:12px" onclick="resetAll()">🗑️ সম্পূর্ণ রিসেট</button>
+        <button class="btn-sm red btn-block" style="margin-top:10px" onclick="resetAll()">🗑️ Reset All Data</button>
       </div>
-      <div style="text-align:center;padding:20px;color:var(--muted);font-size:10px">Bhai Bhai Store v7 PRO<br>Developed by Maruf@Hossain</div>
+      <div class="watermark">©2026-27. Developed by Maruf@Hossain. All rights reserved.</div>
     </div>
   </div>
 
@@ -339,776 +514,8 @@ tr:nth-child(even) td{background:#fafbfc}
 <div class="toast" id="toast"></div>
 
 <script>
-const SYNC_URL = "https://script.google.com/macros/s/AKfycbwK1Cz32Eo8tXaH5ffWxlpTnbeQUFpl4CSl62GiYFOPc4j8hJ1-SeE4JZMGdXPHjxR4Aw/exec";
-
-/* DEFAULT DATA */
-const DEFAULT_PRODUCTS = [
-  {sl:1,name:"P-up 250ml",pcs:24,tp:15.21,dp:12.7},
-  {sl:2,name:"P-up 750ml",pcs:12,tp:31.04,dp:28.35},
-  {sl:3,name:"P-up 2000ml",pcs:6,tp:79.93,dp:73.41},
-  {sl:4,name:"Maxx 250ml",pcs:24,tp:27.03,dp:24.9},
-  {sl:5,name:"Maxx 500ml",pcs:12,tp:42.30,dp:38.95},
-  {sl:6,name:"Maxx 1000ml",pcs:12,tp:75.20,dp:66.22},
-  {sl:7,name:"Maxx 2000ml",pcs:6,tp:131.42,dp:121.56},
-  {sl:8,name:"Lemon 250ml",pcs:24,tp:16.52,dp:14.5},
-  {sl:9,name:"Lemon 400ml",pcs:24,tp:25.56,dp:22.7},
-  {sl:10,name:"Lemon 1000ml",pcs:12,tp:56.11,dp:51.3},
-  {sl:11,name:"Lachi 250ml",pcs:24,tp:19.07,dp:17.74},
-  {sl:12,name:"Lachi 500ml",pcs:24,tp:34.95,dp:30.8},
-  {sl:13,name:"Lachi 1000ml",pcs:12,tp:45.90,dp:38.92},
-  {sl:14,name:"Drinko Mango",pcs:24,tp:22.91,dp:20.4},
-  {sl:15,name:"Drinko 250ml",pcs:24,tp:27.40,dp:25.18},
-  {sl:16,name:"D-Water 500ml",pcs:24,tp:14.83,dp:12.9},
-  {sl:17,name:"D-Water 1000ml",pcs:12,tp:25.20,dp:20.1},
-  {sl:18,name:"D-Water 2000ml",pcs:6,tp:35.00,dp:28.8},
-  {sl:19,name:"Mlp",pcs:24,tp:17.21,dp:15.1},
-  {sl:20,name:"Fasto 250ml",pcs:24,tp:31.96,dp:29.5},
-  {sl:21,name:"Fasto 500ml",pcs:24,tp:54.80,dp:50.5},
-  {sl:22,name:"Fasto 1000ml",pcs:12,tp:80.11,dp:73.8},
-  {sl:23,name:"Mango Pack 150ml",pcs:80,tp:11.05,dp:10.0},
-  {sl:24,name:"Power",pcs:24,tp:18.29,dp:14.3},
-  {sl:25,name:"Zera pant",pcs:24,tp:24.29,dp:20.2},
-  {sl:26,name:"Jelly Ship",pcs:96,tp:7.92,dp:6.9},
-  {sl:27,name:"Lolipop (jar)",pcs:100,tp:3.55,dp:3.1},
-  {sl:28,name:"Coffee (pcs)",pcs:50,tp:12.51,dp:10.5},
-  {sl:29,name:"Pulse candy (jar)",pcs:170,tp:1.55,dp:1.3}
-];
-
-const DEFAULT_SRS = [
-  {id:"maruf",name:"Maruf Hossain",pass:"1234"},
-  {id:"raju",name:"Raju Hossain",pass:"2345"},
-  {id:"sumon",name:"Sumon Islam",pass:"3456"}
-];
-
-const DEFAULT_DSRS = ["Tapon Das","Sunil Das","Niloy Das","Akram","Mojnu Mia","Abdul Lotif","Ramim"];
-const DEFAULT_ROUTES = ["Joydia Bazar","Dhalia Road","Satta West","Mohila General Store","Station Road","Shantipur","Charkhai Dangi","Nuton Bazar","Ghoramara","Lakhaura","Boro Shibganj","Mymensingh East","Mymensingh West","Taragonj North","Taragonj South","Isamoti Kachari","Bhongir Bazar","Rajbari Bazar","IPH Gate"];
-
-const DB = {
-  load(k,d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch(e){ return d } },
-  save(k,v){ localStorage.setItem(k, JSON.stringify(v)) }
-};
-
-let products = DB.load('bb_products', DEFAULT_PRODUCTS);
-let srs = DB.load('bb_srs', DEFAULT_SRS);
-let dsrs = DB.load('bb_dsrs', DEFAULT_DSRS);
-let routes = DB.load('bb_routes', DEFAULT_ROUTES);
-let entries = DB.load('bb_entries', []);
-let targets = DB.load('bb_targets', {});
-let stock = DB.load('bb_stock', {lifting:{}, opening:{}});
-let currentUser = null;
-let topFilter = 'all';
-
-/* INIT */
-window.addEventListener('load', ()=>{
-  buildLoginList();
-  const u = DB.load('bb_current_user', null);
-  if(u){ currentUser = u; bootApp(); }
-});
-
-function buildLoginList(){
-  const sel = document.getElementById('loginUser');
-  sel.innerHTML = '<option value="">-- নির্বাচন করুন --</option>' +
-    `<option value="admin">🔑 Admin</option>` +
-    srs.map(s=>`<option value="${s.id}">${s.name} (SR)</option>`).join('');
-}
-
-function doLogin(){
-  const u = document.getElementById('loginUser').value;
-  const p = document.getElementById('loginPin').value.trim();
-  if(!u){ toast('ইউজার সিলেক্ট করুন', true); return; }
-  if(!p){ toast('পাসওয়ার্ড দিন', true); return; }
-  if(u==='admin'){
-    const adminPass = DB.load('bb_admin_pass','1111');
-    if(p!==adminPass){ toast('❌ ভুল পাসওয়ার্ড!', true); return; }
-  } else {
-    const sr = srs.find(s=>s.id===u);
-    if(!sr||sr.pass!==p){ toast('❌ ভুল পাসওয়ার্ড!', true); return; }
-  }
-  currentUser = u;
-  DB.save('bb_current_user', u);
-  bootApp();
-}
-
-function bootApp(){
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('appScreen').style.display='block';
-  const isAdmin = currentUser==='admin';
-  const sr = srs.find(s=>s.id===currentUser);
-  document.getElementById('userName').textContent = isAdmin?'Admin':(sr?.name.split(' ')[0]||'User');
-  document.getElementById('userAvatar').textContent = isAdmin?'A':(sr?.name[0]||'U');
-  document.getElementById('hdrSub').textContent = isAdmin?'Admin Mode':(sr?.name||'');
-  buildTabs();
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('entryDate').value = today;
-  document.getElementById('stockDate').value = today;
-  document.getElementById('todayDate').textContent = today;
-  fillDropdowns();
-  renderEntryProducts();
-  renderTodaySummary();
-  renderProductMaster();
-  renderSetupLists();
-}
-
-function doLogout(){
-  if(!confirm('লগআউট?')) return;
-  localStorage.removeItem('bb_current_user');
-  location.reload();
-}
-
-/* TABS */
-const TABS = [
-  {id:'entry',label:'📝 এন্ট্রি',icon:'📝',short:'এন্ট্রি',admin:true,sr:true},
-  {id:'dashboard',label:'📊 ড্যাশবোর্ড',icon:'📊',short:'ড্যাশ',admin:true,sr:true},
-  {id:'topprod',label:'🏆 টপ প্রোডাক্ট',icon:'🏆',short:'টপ',admin:true,sr:true},
-  {id:'inventory',label:'📦 স্টক',icon:'📦',short:'স্টক',admin:true,sr:true},
-  {id:'reports',label:'📈 রিপোর্ট',icon:'📈',short:'রিপোর্ট',admin:true,sr:true},
-  {id:'setup',label:'⚙️ সেটআপ',icon:'⚙️',short:'সেটআপ',admin:true,sr:false}
-];
-
-function buildTabs(){
-  const isAdmin = currentUser==='admin';
-  const visible = TABS.filter(t=> isAdmin ? t.admin : t.sr);
-  document.getElementById('tabNav').innerHTML = visible.map((t,i)=>
-    `<button class="tab-btn${i===0?' active':''}" onclick="switchTab('${t.id}',this)">${t.label}</button>`
-  ).join('');
-  document.getElementById('bottomNav').innerHTML = visible.map((t,i)=>
-    `<div class="nav-item${i===0?' active':''}" onclick="switchTab('${t.id}',this)"><span class="ico">${t.icon}</span>${t.short}</div>`
-  ).join('');
-}
-
-function switchTab(id, el){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('sec-'+id).classList.add('active');
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if(el && el.classList.contains('tab-btn')) el.classList.add('active');
-  const order = TABS.filter(t=> currentUser==='admin'? t.admin : t.sr).map(t=>t.id);
-  const idx = order.indexOf(id);
-  if(idx>=0){ const n = document.querySelectorAll('.nav-item')[idx]; if(n) n.classList.add('active'); }
-  if(id==='dashboard') renderDashboard();
-  if(id==='topprod') renderTopProducts();
-  if(id==='inventory'){ renderInventory(); renderStockInputs(); }
-  if(id==='reports') renderReports();
-  if(id==='setup'){ renderProductMaster(); renderSetupLists(); }
-  if(id==='entry'){ renderEntryProducts(); renderTodaySummary(); }
-}
-
-function fillDropdowns(){
-  const isAdmin = currentUser==='admin';
-  document.getElementById('entryRoute').innerHTML = routes.map(r=>`<option>${r}</option>`).join('');
-  document.getElementById('entryDSR').innerHTML = dsrs.map(d=>`<option>${d}</option>`).join('');
-  document.getElementById('setupSR').innerHTML = srs.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
-  if(!isAdmin){
-    const sr = srs.find(s=>s.id===currentUser);
-    if(sr){ document.getElementById('entryRoute').disabled = false; }
-  }
-  document.getElementById('stockEntryCard').style.display = isAdmin?'block':'none';
-}
-
-/* ENTRY */
-function renderEntryProducts(filter){
-  const box = document.getElementById('productInputs');
-  const list = filter ? products.filter(p=>p.name.toLowerCase().includes(filter.toLowerCase())) : products;
-  if(list.length===0){ box.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted)">প্রোডাক্ট নেই</div>'; return; }
-  box.innerHTML = list.map(p=>{
-    const i = products.indexOf(p);
-    const existing = document.getElementById('pin_'+i)?.value || '';
-    return `<div class="form-row" style="align-items:center;margin-bottom:8px">
-      <div style="font-size:11px;font-weight:600">${p.name}<br><span style="font-size:9px;color:var(--muted)">৳${p.tp} • ${p.pcs}pcs/ctn</span></div>
-      <input type="number" id="pin_${i}" value="${existing}" placeholder="0" inputmode="numeric" style="padding:9px;background:#f8fafc;border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;text-align:center">
-    </div>`;
-  }).join('');
-}
-
-function filterProducts(v){ renderEntryProducts(v); }
-
-function clearEntry(){
-  products.forEach((_,i)=>{ const el=document.getElementById('pin_'+i); if(el) el.value=''; });
-  toast('রিসেট');
-}
-
-function saveEntry(){
-  const date = document.getElementById('entryDate').value;
-  const route = document.getElementById('entryRoute').value;
-  const dsr = document.getElementById('entryDSR').value;
-  const type = document.getElementById('entryType').value;
-  const items = {};
-  let total = 0;
-  products.forEach((p,i)=>{
-    const el = document.getElementById('pin_'+i);
-    const v = el ? parseInt(el.value)||0 : 0;
-    if(v>0){ items[p.name]=v; total+=v; }
-  });
-  if(total===0){ toast('কিছু এন্ট্রি দিন', true); return; }
-  const ed = {id:Date.now(), date, route, dsr, type, items, dsr_by: currentUser, ts:new Date().toISOString()};
-  entries.push(ed);
-  DB.save('bb_entries', entries);
-  syncToSheet('saveEntry', ed);
-  clearEntry();
-  renderTodaySummary();
-  toast('✅ সেভ হয়েছে!');
-}
-
-function renderTodaySummary(){
-  const today = document.getElementById('entryDate').value || new Date().toISOString().split('T')[0];
-  const mine = currentUser==='admin' ? entries : entries.filter(e=>e.dsr_by===currentUser);
-  const todays = mine.filter(e=>e.date===today);
-  let oC=0,oV=0,sC=0,sV=0,d=0,disc=0;
-  todays.forEach(e=>{
-    products.forEach(p=>{
-      const q = e.items[p.name]||0;
-      if(e.type==='order'){ oC+=q/p.pcs; oV+=q*p.tp; }
-      if(e.type==='sales'){ sC+=q/p.pcs; sV+=q*p.tp; }
-      if(e.type==='damage') d+=q;
-    });
-    if(e.type==='discount') disc+=(e.items.__total||0);
-  });
-  document.getElementById('tOrdCtn').textContent = oC.toFixed(1);
-  document.getElementById('tOrdVal').textContent = '৳'+Math.round(oV).toLocaleString();
-  document.getElementById('tSalCtn').textContent = sC.toFixed(1);
-  document.getElementById('tSalVal').textContent = '৳'+Math.round(sV).toLocaleString();
-  document.getElementById('tDmg').textContent = d;
-  document.getElementById('tDisc').textContent = '৳'+Math.round(disc).toLocaleString();
-}
-
-/* DASHBOARD */
-function renderDashboard(){
-  const isAdmin = currentUser==='admin';
-  const month = new Date().toISOString().slice(0,7);
-  const me = entries.filter(e=>e.date.startsWith(month));
-  const filtered = isAdmin ? me : me.filter(e=>e.dsr_by===currentUser);
-  let ts=0, tt=0, td=0, tdc=0;
-  const srSales = {};
-  filtered.forEach(e=>{
-    if(e.type==='sales'){
-      let v=0; products.forEach(p=>v+=(e.items[p.name]||0)*p.tp);
-      ts+=v; srSales[e.dsr_by]=(srSales[e.dsr_by]||0)+v;
-    }
-    if(e.type==='damage') products.forEach(p=> td+=(e.items[p.name]||0));
-    if(e.type==='discount') tdc+=(e.items.__total||0);
-  });
-  if(isAdmin){ srs.forEach(s=> tt += (targets[s.id]?.totalValue || 0)); }
-  else { tt = targets[currentUser]?.totalValue || 0; }
-  const a = tt ? (ts/tt*100) : 0;
-  document.getElementById('dbSales').textContent = '৳'+Math.round(ts).toLocaleString();
-  document.getElementById('dbTarget').textContent = '৳'+Math.round(tt).toLocaleString();
-  document.getElementById('dbAchv').textContent = a.toFixed(1)+'%';
-  document.getElementById('dbDmg').textContent = td;
-  document.getElementById('dbDisc').textContent = '৳'+Math.round(tdc).toLocaleString();
-
-  const now = new Date();
-  const day = now.getDate();
-  const daysInMonth = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
-  document.getElementById('monthBadge').textContent = now.toLocaleDateString('en-US',{month:'short',year:'numeric'});
-  document.getElementById('monthProgress').style.width = (day/daysInMonth*100)+'%';
-  document.getElementById('monthElapsed').textContent = day+' দিন পার';
-  document.getElementById('monthRemain').textContent = (daysInMonth-day)+' দিন বাকি';
-
-  const srList = isAdmin ? srs : srs.filter(s=>s.id===currentUser);
-  drawBarChart('chartSR', srList.map(s=>s.name.split(' ')[0]), [
-    {label:'Sales', data: srList.map(s=>srSales[s.id]||0), bg:'#3b82f6'},
-    {label:'Target', data: srList.map(s=>targets[s.id]?.totalValue||0), bg:'#a78bfa'}
-  ]);
-
-  const bm = {};
-  filtered.filter(e=>e.type==='sales').forEach(e=>{
-    products.forEach(p=>{
-      const q=e.items[p.name]||0;
-      if(q){ const key = p.name.split(' ')[0]; bm[key]=(bm[key]||0)+q*p.tp; }
-    });
-  });
-  drawPieChart('chartBrand', Object.keys(bm), Object.values(bm));
-
-  const last7 = [];
-  for(let i=6;i>=0;i--){
-    const d = new Date(); d.setDate(d.getDate()-i);
-    const key = d.toISOString().split('T')[0];
-    let v=0;
-    filtered.filter(e=>e.date===key && e.type==='sales').forEach(e=>{
-      products.forEach(p=>v+=(e.items[p.name]||0)*p.tp);
-    });
-    last7.push({label: key.slice(8), val: v});
-  }
-  drawLineChart('chartWeek', last7.map(x=>x.label), last7.map(x=>x.val));
-
-  if(isAdmin){
-    const ranks = srs.map(s=>({name:s.name, sales:srSales[s.id]||0, target:targets[s.id]?.totalValue||0})).sort((a,b)=>b.sales-a.sales);
-    document.getElementById('rankTable').innerHTML = ranks.map((r,i)=>{
-      const cls = i===0?'gold':i===1?'silver':i===2?'bronze':'normal';
-      const pct = r.target? (r.sales/r.target*100).toFixed(1):'0';
-      return `<tr><td><span class="rank ${cls}">${i+1}</span></td><td>${r.name}</td><td>৳${Math.round(r.sales).toLocaleString()}</td><td>${pct}%</td></tr>`;
-    }).join('');
-  } else {
-    document.getElementById('rankTable').innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted)">Admin শুধু Ranking দেখতে পারে</td></tr>`;
-  }
-}
-
-/* TOP PRODUCTS */
-function renderTopProducts(){
-  const isAdmin = currentUser==='admin';
-  const month = new Date().toISOString().slice(0,7);
-
-  const chips = document.getElementById('topFilter');
-  if(isAdmin){
-    chips.innerHTML = `<div class="chip${topFilter==='all'?' active':''}" onclick="topFilter='all';renderTopProducts()">All Combined</div>` +
-      srs.map(s=>`<div class="chip${topFilter===s.id?' active':''}" onclick="topFilter='${s.id}';renderTopProducts()">${s.name.split(' ')[0]}</div>`).join('');
-  } else {
-    chips.innerHTML = `<div class="chip active">আমার টপ প্রোডাক্ট</div>`;
-  }
-
-  let filtered = entries.filter(e=>e.date.startsWith(month) && e.type==='sales');
-  if(!isAdmin){ filtered = filtered.filter(e=>e.dsr_by===currentUser); }
-  else if(topFilter!=='all'){ filtered = filtered.filter(e=>e.dsr_by===topFilter); }
-
-  const prodSales = {};
-  filtered.forEach(e=>{
-    products.forEach(p=>{
-      const q = e.items[p.name]||0;
-      if(q){
-        if(!prodSales[p.name]) prodSales[p.name] = {qty:0, val:0, pcs:p.pcs, tp:p.tp};
-        prodSales[p.name].qty += q;
-        prodSales[p.name].val += q*p.tp;
-      }
-    });
-  });
-
-  const sorted = Object.entries(prodSales).sort((a,b)=>b[1].val-a[1].val).slice(0,10);
-  const totalVal = Object.values(prodSales).reduce((s,x)=>s+x.val,0);
-
-  const badge = topFilter==='all' ? 'All Combined' : (srs.find(s=>s.id===topFilter)?.name.split(' ')[0] || '');
-  document.getElementById('topBadge').textContent = badge;
-
-  if(sorted.length===0){
-    document.getElementById('topProductsList').innerHTML = '<div class="empty">এখনো কোনো সেলস হয়নি</div>';
-    document.getElementById('topTable').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted)">ডেটা নেই</td></tr>';
-    return;
-  }
-
-  const colors = ['#fbbf24','#cbd5e1','#d97706','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6'];
-  document.getElementById('topProductsList').innerHTML = sorted.map(([name,d],i)=>{
-    const pct = totalVal ? (d.val/totalVal*100).toFixed(1) : 0;
-    return `<div class="top-rank">
-      <div class="num" style="background:${colors[i]}">${i+1}</div>
-      <div class="info">
-        <div class="name">${name}</div>
-        <div class="sub">${(d.qty/d.pcs).toFixed(1)} ctn • ${pct}%</div>
-      </div>
-      <div class="val">৳${Math.round(d.val).toLocaleString()}</div>
-    </div>`;
-  }).join('');
-
-  drawBarChart('chartTop', sorted.map(x=>x[0].split(' ')[0]), [
-    {label:'Sales Value', data: sorted.map(x=>x[1].val), bg:'#10b981'}
-  ]);
-
-  document.getElementById('topTable').innerHTML = sorted.map(([name,d],i)=>{
-    const pct = totalVal ? (d.val/totalVal*100).toFixed(1) : 0;
-    return `<tr><td><b>${i+1}</b></td><td>${name}</td><td>${(d.qty/d.pcs).toFixed(1)}</td><td>৳${Math.round(d.val).toLocaleString()}</td><td>${pct}%</td></tr>`;
-  }).join('');
-}
-
-/* INVENTORY */
-function renderStockInputs(){
-  document.getElementById('stockInputs').innerHTML = products.map((p,i)=>`
-    <div class="form-row" style="align-items:center;margin-bottom:8px">
-      <div style="font-size:11px;font-weight:600">${p.name}<br><span style="font-size:9px;color:var(--muted)">${p.pcs}pcs/ctn</span></div>
-      <input type="number" id="stk_${i}" placeholder="0" inputmode="numeric" style="padding:9px;background:#f8fafc;border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;text-align:center">
-    </div>`).join('');
-}
-
-function saveStock(){
-  if(currentUser!=='admin'){ toast('শুধু Admin স্টক এন্ট্রি দিতে পারবে', true); return; }
-  const type = document.getElementById('stockType').value;
-  const date = document.getElementById('stockDate').value;
-  const items = {};
-  let total = 0;
-  products.forEach((p,i)=>{
-    const el = document.getElementById('stk_'+i);
-    const v = el ? parseInt(el.value)||0 : 0;
-    if(v>0){ items[p.name]=v; total+=v; }
-  });
-  if(total===0){ toast('কিছু এন্ট্রি দিন', true); return; }
-  if(type==='lifting') stock.lifting[date] = Object.assign(stock.lifting[date]||{}, {items});
-  else stock.opening[date] = Object.assign(stock.opening[date]||{}, {items});
-  DB.save('bb_stock', stock);
-  syncToSheet('saveStock', {type, date, items});
-  products.forEach((_,i)=>{ const el=document.getElementById('stk_'+i); if(el) el.value=''; });
-  renderInventory();
-  toast('✅ স্টক সেভ!');
-}
-
-function renderInventory(){
-  const month = new Date().toISOString().slice(0,7);
-  const me = entries.filter(e=>e.date.startsWith(month));
-  const op={}, lf={};
-  Object.keys(stock.opening).forEach(d=>{
-    const items = stock.opening[d].items||{};
-    Object.keys(items).forEach(k=> op[k]=(op[k]||0)+items[k]);
-  });
-  Object.keys(stock.lifting).forEach(d=>{
-    const items = stock.lifting[d].items||{};
-    Object.keys(items).forEach(k=> lf[k]=(lf[k]||0)+items[k]);
-  });
-  let to=0, tl=0, tsv=0, tc=0, toV=0, tlV=0, tsvV=0, tcV=0;
-  let rows='';
-  products.forEach(p=>{
-    const o = op[p.name]||0;
-    const l = lf[p.name]||0;
-    let s=0;
-    me.forEach(e=>{
-      if(e.type==='sales') s += e.items[p.name]||0;
-    });
-    const c = (o*p.pcs)+(l*p.pcs)-s;
-    to+=o*p.pcs; tl+=l*p.pcs; tsv+=s; tc+=c;
-    const ctnC = c/p.pcs;
-    toV += o*p.pcs*p.dp; tlV += l*p.pcs*p.dp; tsvV += s*p.dp; tcV += ctnC*p.pcs*p.dp;
-    rows += `<tr><td>${p.name}</td><td>${o}</td><td>${l}</td><td>${(s/p.pcs).toFixed(1)}</td><td style="font-weight:700;color:${ctnC<0?'#dc2626':'#059669'}">${ctnC.toFixed(1)}</td></tr>`;
-  });
-  document.getElementById('invTable').innerHTML = rows;
-  document.getElementById('invOpening').textContent = (to/24).toFixed(0)+' ctn';
-  document.getElementById('invOpeningVal').textContent = '৳'+Math.round(toV).toLocaleString();
-  document.getElementById('invLifting').textContent = (tl/24).toFixed(0)+' ctn';
-  document.getElementById('invLiftingVal').textContent = '৳'+Math.round(tlV).toLocaleString();
-  document.getElementById('invSales').textContent = (tsv/24).toFixed(0)+' ctn';
-  document.getElementById('invSalesVal').textContent = '৳'+Math.round(tsvV).toLocaleString();
-  document.getElementById('invClosing').textContent = (tc/24).toFixed(0)+' ctn';
-  document.getElementById('invClosingVal').textContent = '৳'+Math.round(tcV).toLocaleString();
-}
-
-/* REPORTS */
-function renderReports(){
-  const isAdmin = currentUser==='admin';
-  const month = new Date().toISOString().slice(0,7);
-  const me = entries.filter(e=>e.date.startsWith(month));
-  const filtered = isAdmin ? me : me.filter(e=>e.dsr_by===currentUser);
-  const srSales = {};
-  filtered.filter(e=>e.type==='sales').forEach(e=>{
-    let v=0; products.forEach(p=>v+=(e.items[p.name]||0)*p.tp);
-    srSales[e.dsr_by]=(srSales[e.dsr_by]||0)+v;
-  });
-  const list = isAdmin ? srs : srs.filter(s=>s.id===currentUser);
-  document.getElementById('reportTable').innerHTML = list.map(s=>{
-    const tgt = targets[s.id]?.totalValue||0;
-    const sl = srSales[s.id]||0;
-    const a = tgt? (sl/tgt*100).toFixed(1):'0';
-    return `<tr><td>${s.name.split(' ')[0]}</td><td>৳${Math.round(tgt).toLocaleString()}</td><td>৳${Math.round(sl).toLocaleString()}</td><td>${a}%</td></tr>`;
-  }).join('');
-  const days = {};
-  filtered.filter(e=>e.type==='sales').forEach(e=>{
-    let v=0; products.forEach(p=>v+=(e.items[p.name]||0)*p.tp);
-    days[e.date]=(days[e.date]||0)+v;
-  });
-  const sorted = Object.keys(days).sort();
-  drawLineChart('chartTrend', sorted.map(d=>d.slice(8)), Object.values(days));
-}
-
-/* SETUP */
-function renderProductMaster(){
-  document.getElementById('prodCount').textContent = products.length;
-  document.getElementById('prodMasterTable').innerHTML = products.map((p,i)=>`
-    <tr>
-      <td>${i+1}</td>
-      <td>${p.name}</td>
-      <td>${p.pcs}</td>
-      <td>৳${p.tp}</td>
-      <td>৳${(p.tp*p.pcs).toFixed(2)}</td>
-      <td>৳${p.dp}</td>
-      <td>৳${(p.dp*p.pcs).toFixed(2)}</td>
-      <td><button class="mini-btn del" onclick="deleteProduct(${i})">🗑️</button></td>
-    </tr>
-  `).join('');
-}
-
-function renderSetupLists(){
-  document.getElementById('srCount').textContent = srs.length;
-  document.getElementById('srList').innerHTML = srs.map((s,i)=>`
-    <div class="list-item">
-      <div><div class="list-item-name">${s.name}</div><div class="list-item-sub">পাসওয়ার্ড: ${s.pass}</div></div>
-      <div class="list-item-actions"><button class="mini-btn del" onclick="deleteSR(${i})">🗑️</button></div>
-    </div>
-  `).join('');
-
-  document.getElementById('dsrCount').textContent = dsrs.length;
-  document.getElementById('dsrList').innerHTML = dsrs.map((d,i)=>`
-    <div class="list-item">
-      <div><div class="list-item-name">${d}</div></div>
-      <div class="list-item-actions"><button class="mini-btn del" onclick="deleteDSR(${i})">🗑️</button></div>
-    </div>
-  `).join('');
-
-  document.getElementById('routeCount').textContent = routes.length;
-  document.getElementById('routeList').innerHTML = routes.map((r,i)=>`
-    <div class="list-item">
-      <div><div class="list-item-name">${r}</div></div>
-      <div class="list-item-actions"><button class="mini-btn del" onclick="deleteRoute(${i})">🗑️</button></div>
-    </div>
-  `).join('');
-}
-
-function renderTargetInputs(){
-  const sr = document.getElementById('setupSR')?.value;
-  if(!sr) return;
-  const tgt = targets[sr]?.items || {};
-  document.getElementById('targetInputs').innerHTML = products.map((p,i)=>`
-    <div class="form-row" style="align-items:center;margin-bottom:8px">
-      <div style="font-size:11px;font-weight:600">${p.name}<br><span style="font-size:9px;color:var(--muted)">৳${p.tp} • ${p.pcs}pcs/ctn</span></div>
-      <input type="number" id="tgt_${i}" value="${tgt[p.name]||''}" placeholder="কার্টন" inputmode="numeric" oninput="calcTargetTotals()" style="padding:9px;background:#f8fafc;border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;text-align:center">
-    </div>`).join('');
-  calcTargetTotals();
-}
-
-function calcTargetTotals(){
-  let ctn=0, val=0;
-  products.forEach((p,i)=>{
-    const el = document.getElementById('tgt_'+i);
-    const c = parseInt(el?.value)||0;
-    if(c>0){ ctn+=c; val += c*p.pcs*p.tp; }
-  });
-  document.getElementById('tgtTotalCtn').textContent = ctn;
-  document.getElementById('tgtTotalVal').textContent = '৳'+Math.round(val).toLocaleString();
-}
-
-function saveTarget(){
-  const sr = document.getElementById('setupSR').value;
-  const items = {};
-  let tv = 0;
-  products.forEach((p,i)=>{
-    const ctn = parseInt(document.getElementById('tgt_'+i).value)||0;
-    if(ctn>0){ items[p.name]=ctn; tv += ctn*p.pcs*p.tp; }
-  });
-  targets[sr] = {items, totalValue:tv};
-  DB.save('bb_targets', targets);
-  syncToSheet('saveTarget', {sr, totalValue:tv, items});
-  toast('✅ টার্গেট সেভ! (৳'+Math.round(tv).toLocaleString()+')');
-}
-
-/* MODALS */
-function closeModal(e){ if(e) e.stopPropagation(); document.getElementById('modalBg').classList.remove('show'); }
-function openModal(html){
-  document.getElementById('modalContent').innerHTML = html;
-  document.getElementById('modalBg').classList.add('show');
-}
-
-function openProductModal(){
-  openModal(`
-    <h3>➕ নতুন প্রোডাক্ট</h3>
-    <div class="form-group"><label>নাম</label><input type="text" id="np_name" placeholder="যেমন: Maxx 500ml"></div>
-    <div class="form-row">
-      <div class="form-group"><label>Pack Size</label><input type="number" id="np_pcs" placeholder="24" inputmode="numeric"></div>
-      <div class="form-group"><label>TP (pcs)</label><input type="number" id="np_tp" placeholder="0" step="0.01"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>DP (pcs)</label><input type="number" id="np_dp" placeholder="0" step="0.01"></div>
-    </div>
-    <button class="btn-sm green" style="width:100%;padding:12px" onclick="addProduct()">✅ যোগ করুন</button>
-    <button class="btn-sm gray" style="width:100%;padding:12px;margin-top:8px" onclick="closeModal()">বাতিল</button>
-  `);
-}
-
-function addProduct(){
-  const name = document.getElementById('np_name').value.trim();
-  const pcs = parseInt(document.getElementById('np_pcs').value)||0;
-  const tp = parseFloat(document.getElementById('np_tp').value)||0;
-  const dp = parseFloat(document.getElementById('np_dp').value)||0;
-  if(!name||!pcs||!tp){ toast('সব তথ্য দিন', true); return; }
-  products.push({sl:products.length+1, name, pcs, tp, dp});
-  DB.save('bb_products', products);
-  syncToSheet('saveProduct', {name, pcs, tp, dp});
-  closeModal();
-  renderProductMaster();
-  renderEntryProducts();
-  toast('✅ প্রোডাক্ট যোগ হয়েছে');
-}
-
-function deleteProduct(i){
-  if(!confirm(products[i].name+' মুছবেন?')) return;
-  products.splice(i,1);
-  DB.save('bb_products', products);
-  renderProductMaster();
-  renderEntryProducts();
-  toast('🗑️ মুছে ফেলা হয়েছে');
-}
-
-function openSRModal(){
-  openModal(`
-    <h3>➕ নতুন SR</h3>
-    <div class="form-group"><label>নাম</label><input type="text" id="ns_name" placeholder="যেমন: Karim Mia"></div>
-    <div class="form-group"><label>পাসওয়ার্ড</label><input type="text" id="ns_pass" placeholder="৪+ ডিজিট" inputmode="numeric"></div>
-    <button class="btn-sm green" style="width:100%;padding:12px" onclick="addSR()">✅ যোগ করুন</button>
-    <button class="btn-sm gray" style="width:100%;padding:12px;margin-top:8px" onclick="closeModal()">বাতিল</button>
-  `);
-}
-
-function addSR(){
-  const name = document.getElementById('ns_name').value.trim();
-  const pass = document.getElementById('ns_pass').value.trim();
-  if(!name||pass.length<4){ toast('নাম ও ৪+ ডিজিট পাসওয়ার্ড দিন', true); return; }
-  const id = name.toLowerCase().replace(/\s+/g,'_');
-  srs.push({id, name, pass});
-  DB.save('bb_srs', srs);
-  syncToSheet('saveSR', {id, name, pass});
-  closeModal();
-  buildLoginList();
-  renderSetupLists();
-  fillDropdowns();
-  buildTabs();
-  toast('✅ SR যোগ হয়েছে');
-}
-
-function deleteSR(i){
-  if(!confirm(srs[i].name+' মুছবেন?')) return;
-  srs.splice(i,1);
-  DB.save('bb_srs', srs);
-  buildLoginList();
-  renderSetupLists();
-  toast('🗑️ মুছে ফেলা হয়েছে');
-}
-
-function openDSRModal(){
-  openModal(`
-    <h3>➕ নতুন DSR</h3>
-    <div class="form-group"><label>নাম</label><input type="text" id="nd_name" placeholder="যেমন: Tapon Das"></div>
-    <button class="btn-sm green" style="width:100%;padding:12px" onclick="addDSR()">✅ যোগ করুন</button>
-    <button class="btn-sm gray" style="width:100%;padding:12px;margin-top:8px" onclick="closeModal()">বাতিল</button>
-  `);
-}
-
-function addDSR(){
-  const name = document.getElementById('nd_name').value.trim();
-  if(!name){ toast('নাম দিন', true); return; }
-  dsrs.push(name);
-  DB.save('bb_dsrs', dsrs);
-  syncToSheet('saveDSR', {name});
-  closeModal();
-  renderSetupLists();
-  fillDropdowns();
-  toast('✅ DSR যোগ হয়েছে');
-}
-
-function deleteDSR(i){
-  if(!confirm(dsrs[i]+' মুছবেন?')) return;
-  dsrs.splice(i,1);
-  DB.save('bb_dsrs', dsrs);
-  renderSetupLists();
-  fillDropdowns();
-  toast('🗑️ মুছে ফেলা হয়েছে');
-}
-
-function openRouteModal(){
-  openModal(`
-    <h3>➕ নতুন রুট</h3>
-    <div class="form-group"><label>নাম</label><input type="text" id="nr_name" placeholder="যেমন: Nuton Bazar"></div>
-    <button class="btn-sm green" style="width:100%;padding:12px" onclick="addRoute()">✅ যোগ করুন</button>
-    <button class="btn-sm gray" style="width:100%;padding:12px;margin-top:8px" onclick="closeModal()">বাতিল</button>
-  `);
-}
-
-function addRoute(){
-  const name = document.getElementById('nr_name').value.trim();
-  if(!name){ toast('নাম দিন', true); return; }
-  routes.push(name);
-  DB.save('bb_routes', routes);
-  syncToSheet('saveRoute', {name});
-  closeModal();
-  renderSetupLists();
-  fillDropdowns();
-  toast('✅ রুট যোগ হয়েছে');
-}
-
-function deleteRoute(i){
-  if(!confirm(routes[i]+' মুছবেন?')) return;
-  routes.splice(i,1);
-  DB.save('bb_routes', routes);
-  renderSetupLists();
-  fillDropdowns();
-  toast('🗑️ মুছে ফেলা হয়েছে');
-}
-
-/* SYNC */
-function syncToSheet(action, data){
-  const payload = Object.assign({action}, data);
-  fetch(SYNC_URL, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(payload)})
-    .then(()=>console.log('✅ Synced', action))
-    .catch(e=>console.log('Sync err:', e));
-}
-
-function showLoader(s){ document.getElementById('loader').classList.toggle('show', !!s); }
-function loadFromSheet(){ showLoader(true); syncToSheet('loadAll', {}); setTimeout(()=>{ showLoader(false); toast('🔄 Sync requested'); }, 1000); }
-
-/* DATA */
-function exportData(){
-  const data = {products, srs, dsrs, routes, entries, targets, stock};
-  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'bhaibhai_backup_'+Date.now()+'.json';
-  a.click();
-  toast('✅ এক্সপোর্ট');
-}
-
-function importData(e){
-  const f = e.target.files[0]; if(!f) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    try{
-      const d = JSON.parse(ev.target.result);
-      if(d.products){ products=d.products; DB.save('bb_products', products); }
-      if(d.srs){ srs=d.srs; DB.save('bb_srs', srs); }
-      if(d.dsrs){ dsrs=d.dsrs; DB.save('bb_dsrs', dsrs); }
-      if(d.routes){ routes=d.routes; DB.save('bb_routes', routes); }
-      if(d.entries){ entries=d.entries; DB.save('bb_entries', entries); }
-      if(d.targets){ targets=d.targets; DB.save('bb_targets', targets); }
-      if(d.stock){ stock=d.stock; DB.save('bb_stock', stock); }
-      toast('✅ ইমপোর্ট');
-      setTimeout(()=>location.reload(), 800);
-    }catch(err){ toast('ভুল ফাইল', true); }
-  };
-  r.readAsText(f);
-}
-
-function resetAll(){
-  if(!confirm('সব ডেটা মুছবে?')) return;
-  localStorage.clear();
-  location.reload();
-}
-
-/* CHARTS */
-let chartInstances = {};
-function drawBarChart(id, labels, datasets){
-  if(chartInstances[id]) chartInstances[id].destroy();
-  chartInstances[id] = new Chart(document.getElementById(id), {
-    type:'bar',
-    data:{labels, datasets:datasets.map(d=>({label:d.label, data:d.data, backgroundColor:d.bg, borderRadius:6}))},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#64748b',font:{size:10}}}},
-      scales:{x:{ticks:{color:'#64748b',font:{size:10}},grid:{display:false}},
-              y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(100,116,139,0.1)'}}}}
-  });
-}
-function drawPieChart(id, labels, data){
-  if(chartInstances[id]) chartInstances[id].destroy();
-  chartInstances[id] = new Chart(document.getElementById(id), {
-    type:'doughnut',
-    data:{labels, datasets:[{data, backgroundColor:['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#ec4899','#06b6d4','#fbbf24','#84cc16','#6366f1','#14b8a6','#f97316','#a855f7','#22c55e','#eab308'], borderWidth:0}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#64748b',font:{size:9},boxWidth:10,padding:6}}}}
-  });
-}
-function drawLineChart(id, labels, data){
-  if(chartInstances[id]) chartInstances[id].destroy();
-  chartInstances[id] = new Chart(document.getElementById(id), {
-    type:'line',
-    data:{labels, datasets:[{label:'Sales (৳)', data, borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,0.1)', fill:true, tension:0.4, pointRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#64748b',font:{size:10}}}},
-      scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{display:false}},
-              y:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(100,116,139,0.1)'}}}}
-  });
-}
-
-function toast(msg, err){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show' + (err?' error':'');
-  setTimeout(()=> t.className='toast', 2200);
-}
+// PART 2, 3, 4 আসবে পরের মেসেজে
+console.log('Bhai Bhai Store v8 — HTML loaded');
 </script>
 </body>
 </html>
